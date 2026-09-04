@@ -165,6 +165,116 @@
                 </div>
             </div>
 
+            <!-- Painel de Controle Plesk & Credenciais de Acesso -->
+            <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#B99470]/25 shadow-sm">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-indigo-50 rounded-2xl text-indigo-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-[#783D19]">
+                                Painel de Controle Plesk & Credenciais
+                            </h3>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                Acesso direto ao painel de hospedagem ValueHost, gerenciamento de caixas postais e FTP.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <a href="https://us163-pl.valueserver.net:8443" target="_blank" rel="noopener noreferrer" 
+                           class="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs uppercase tracking-wider shadow-sm transition">
+                            <span>Acessar Plesk</span>
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5" x-data="{ 
+                    copiedUser: false, 
+                    copiedPass: false, 
+                    showSecret: false,
+                    copyText(text, type) {
+                        navigator.clipboard.writeText(text).then(() => {
+                            if (type === 'user') { this.copiedUser = true; setTimeout(() => this.copiedUser = false, 2500); }
+                            if (type === 'pass') { this.copiedPass = true; setTimeout(() => this.copiedPass = false, 2500); }
+                        });
+                    }
+                }">
+                    <!-- Usuário -->
+                    <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200">
+                        <span class="block text-[11px] font-bold text-[#5F6F52] uppercase tracking-wider mb-1.5">
+                            Usuário do Painel / FTP
+                        </span>
+                        <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-gray-200">
+                            <span class="font-mono font-bold text-gray-800 text-sm">
+                                {{ $hosting->username ?? 'alexcla1' }}
+                            </span>
+                            <button type="button" 
+                                    @click="copyText('{{ $hosting->username ?? 'alexcla1' }}', 'user')"
+                                    class="text-gray-400 hover:text-[#C4661F] transition text-xs font-semibold flex items-center gap-1 focus:outline-none"
+                                    title="Copiar Usuário">
+                                <span x-show="!copiedUser" class="flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                    <span class="hidden sm:inline">Copiar</span>
+                                </span>
+                                <span x-show="copiedUser" style="display: none;" class="text-emerald-600 flex items-center gap-1">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    <span>Copiado!</span>
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Senha com Olhinho & Copiar -->
+                    <div class="p-4 rounded-2xl bg-gray-50 border border-gray-200">
+                        <span class="block text-[11px] font-bold text-[#5F6F52] uppercase tracking-wider mb-1.5">
+                            Senha de Acesso ao Painel
+                        </span>
+                        <div class="flex items-center justify-between bg-white px-3.5 py-2.5 rounded-xl border border-gray-200">
+                            <span class="font-mono font-bold text-gray-800 text-sm tracking-wider" 
+                                  x-text="showSecret ? 'Al951357@2026@#' : '•••••••••••••'">
+                            </span>
+                            <div class="flex items-center gap-2">
+                                <!-- Botão Copiar -->
+                                <button type="button" 
+                                        @click="copyText('Al951357@2026@#', 'pass')"
+                                        class="text-gray-400 hover:text-[#C4661F] transition text-xs font-semibold flex items-center gap-1 focus:outline-none"
+                                        title="Copiar Senha">
+                                    <span x-show="!copiedPass" class="flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                                    </span>
+                                    <span x-show="copiedPass" style="display: none;" class="text-emerald-600 flex items-center gap-1">
+                                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                    </span>
+                                </button>
+                                <!-- Olhinho (Ver/Ocultar) -->
+                                <button type="button" 
+                                        @click="showSecret = !showSecret" 
+                                        class="text-gray-400 hover:text-[#C4661F] transition p-1 focus:outline-none"
+                                        :title="showSecret ? 'Ocultar senha' : 'Ver senha'">
+                                    <svg x-show="!showSecret" class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <svg x-show="showSecret" style="display: none;" class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 pt-3 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-2">
+                    <span>Problemas com a senha? Altere no menu esquerdo do painel Plesk.</span>
+                    <a href="https://webmail.hostdevpro.app.br" target="_blank" rel="noopener noreferrer" class="text-blue-600 font-bold hover:underline">
+                        Abrir Webmail Oficial &rarr;
+                    </a>
+                </div>
+            </div>
+
             <!-- Guia Oficial de Apontamento DNS: Web (HostDevPro) & E-mails (ValueHost) -->
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#B99470]/25 shadow-sm">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-5 mb-6">

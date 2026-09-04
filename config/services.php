@@ -35,4 +35,36 @@ return [
         ],
     ],
 
+    'plesk' => [
+        'host' => env('PLESK_HOST', 'https://us163-pl.valueserver.net:8443'),
+        'username' => env('PLESK_USERNAME', 'alexcla1'),
+        'password' => env('PLESK_PASSWORD'),
+    ],
+
+    'stripe' => [
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+        'restricted_key' => env('STRIPE_RESTRICTED_KEY'),
+        'webhook' => [
+            'secret' => env('STRIPE_WEBHOOK_SECRET'),
+        ],
+    ],
+
+    'mercadopago' => [
+        'public_key' => env('MERCADOPAGO_PUBLIC_KEY'),
+        'access_token' => env('MERCADOPAGO_ACCESS_TOKEN'),
+        'client_id' => env('MERCADOPAGO_CLIENT_ID'),
+        'client_secret' => env('MERCADOPAGO_CLIENT_SECRET'),
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => env('GOOGLE_REDIRECT_URI'),
+    ],
+
+    'gemini' => [
+        'key' => env('GEMINI_API_KEY'),
+    ],
+
 ];
