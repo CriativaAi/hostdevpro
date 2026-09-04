@@ -6,12 +6,12 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}">
-                        <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
+                        <x-application-logo class="block h-8 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <div class="hidden space-x-6 sm:-my-px sm:ms-8 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
@@ -20,6 +20,12 @@
                     </x-nav-link>
                     <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
                         {{ __('Projetos') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('servers.index')" :active="request()->routeIs('servers.*')">
+                        {{ __('Servidores') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('hosting.index')" :active="request()->routeIs('hosting.*')">
+                        {{ __('Hospedagens') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -43,6 +49,16 @@
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
                         </x-dropdown-link>
+
+                        <!-- Links para Termos & Contratos -->
+                        <div class="border-t border-gray-100"></div>
+                        <x-dropdown-link :href="route('terms.vps')" target="_blank">
+                            {{ __('Contrato de VPS') }}
+                        </x-dropdown-link>
+                        <x-dropdown-link :href="route('terms.hosting')" target="_blank">
+                            {{ __('Contrato de Hospedagem') }}
+                        </x-dropdown-link>
+                        <div class="border-t border-gray-100"></div>
 
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
@@ -82,6 +98,12 @@
             <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
                 {{ __('Projetos') }}
             </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('servers.index')" :active="request()->routeIs('servers.*')">
+                {{ __('Servidores') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('hosting.index')" :active="request()->routeIs('hosting.*')">
+                {{ __('Hospedagens') }}
+            </x-responsive-nav-link>
         </div>
 
         <!-- Responsive Settings Options -->
@@ -94,6 +116,12 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('terms.vps')" target="_blank">
+                    {{ __('Contrato de VPS') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('terms.hosting')" target="_blank">
+                    {{ __('Contrato de Hospedagem') }}
                 </x-responsive-nav-link>
 
                 <!-- Authentication -->

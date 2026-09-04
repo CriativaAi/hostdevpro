@@ -52,6 +52,14 @@ class Client extends Model
     }
 
     /**
+     * Contas de hospedagem pertencentes ao cliente.
+     */
+    public function hostingAccounts(): HasMany
+    {
+        return $this->hasMany(HostingAccount::class);
+    }
+
+    /**
      * Get the human-readable status label.
      */
     public function getStatusLabelAttribute(): string

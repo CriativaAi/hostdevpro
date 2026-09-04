@@ -211,6 +211,95 @@
                 @endif
             </div>
 
+            <!-- Seção de Hospedagens & Domínios Deste Cliente -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-brand-darkolive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                            </svg>
+                            Contas de Hospedagem & Domínios ({{ $client->hostingAccounts->count() }})
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Planos web gerenciados, domínios e alocação de servidores para este cliente.</p>
+                    </div>
+                    <a href="{{ route('hosting.create', ['client_id' => $client->id]) }}" class="inline-flex items-center px-3.5 py-2 border border-transparent text-xs font-semibold rounded-lg text-white bg-brand-darkolive hover:bg-brand-russet transition gap-1.5 self-start sm:self-auto shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Nova Hospedagem para este Cliente
+                    </a>
+                </div>
+
+                @if($client->hostingAccounts->count() > 0)
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @foreach($client->hostingAccounts as $account)
+                            <div class="rounded-xl border border-gray-100 p-4 hover:border-brand-darkolive/40 hover:shadow-sm transition flex flex-col justify-between bg-slate-50/50">
+                                <div>
+                                    <div class="flex items-center justify-between gap-2 mb-2">
+                                        <span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset {{ $account->status_badge_classes }}">
+                                            {{ $account->status_label }}
+                                        </span>
+                                        <span class="text-xs text-brand-russet font-semibold bg-brand-cornsilk px-2 py-0.5 rounded">
+                                            {{ $account->plan_label }}
+                                        </span>
+                                    </div>
+                                    <h4 class="font-bold text-gray-900 text-sm hover:text-brand-darkolive transition">
+                                        <a href="{{ route('hosting.show', $account) }}" class="flex items-center gap-1.5">
+                                            <span>{{ $account->domain }}</span>
+                                            @if($account->ssl_status === \App\Models\HostingAccount::SSL_ACTIVE)
+                                                <svg class="w-3.5 h-3.5 text-emerald-600 inline" fill="none" stroke="currentColor" viewBox="0 0 24 24" title="SSL Let's Encrypt Ativo">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                                </svg>
+                                            @endif
+                                        </a>
+                                    </h4>
+                                    <div class="mt-2 space-y-1 text-xs text-gray-600">
+                                        <p class="flex items-center gap-1">
+                                            <svg class="w-3.5 h-3.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"></path>
+                                            </svg>
+                                            <span>Servidor: <strong class="text-gray-800">{{ $account->server->name }}</strong></span>
+                                        </p>
+                                        <p class="flex items-center gap-1">
+                                            <span class="text-gray-400 font-mono">SSD:</span>
+                                            <span>{{ $account->disk_limit_mb >= 1024 ? round($account->disk_limit_mb / 1024, 1) . ' GB' : $account->disk_limit_mb . ' MB' }}</span>
+                                            <span class="text-gray-300">|</span>
+                                            <span class="text-gray-400 font-mono">Tráfego:</span>
+                                            <span>{{ $account->bandwidth_limit_gb }} GB/mês</span>
+                                        </p>
+                                        @if($account->php_version)
+                                            <p class="text-[11px] text-gray-400 font-mono">
+                                                PHP {{ $account->php_version }}
+                                            </p>
+                                        @endif
+                                    </div>
+                                </div>
+
+                                <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+                                    <a href="https://{{ $account->domain }}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline font-semibold flex items-center gap-1" title="Visitar Domínio">
+                                        <span>Visitar</span>
+                                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                                        </svg>
+                                    </a>
+                                    <a href="{{ route('hosting.show', $account) }}" class="font-semibold text-brand-darkolive hover:text-brand-russet">
+                                        Gerenciar &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-8 text-gray-400 text-sm">
+                        <p>Nenhuma conta de hospedagem vinculada a este cliente.</p>
+                        <a href="{{ route('hosting.create', ['client_id' => $client->id]) }}" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand-darkolive hover:underline">
+                            + Vincular primeira conta de hospedagem agora
+                        </a>
+                    </div>
+                @endif
+            </div>
+
         </div>
     </div>
 </x-app-layout>
