@@ -9,6 +9,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Contratos e Termos Oficiais
+Route::view('/termos/contrato-vps', 'terms.vps')->name('terms.vps');
+Route::view('/termos/contrato-hospedagem', 'terms.hosting')->name('terms.hosting');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
