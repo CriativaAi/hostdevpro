@@ -7,12 +7,12 @@
             <div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-white/5 blur-2xl pointer-events-none"></div>
             <div class="absolute -left-16 -bottom-16 w-56 h-56 rounded-full bg-[#C4661F]/20 blur-3xl pointer-events-none"></div>
 
-            <!-- Topo: Logo Oficial Dark -->
+            <!-- Topo: Logo Oficial Branco para Fundos Escuros -->
             <div class="relative z-10">
                 <a href="/" class="inline-block transition-transform hover:scale-105 duration-200">
-                    <img src="{{ asset('brand/logos/dark/HostDevPro-horizontal-gradient.webp') }}" 
+                    <img src="{{ asset('brand/logos/dark/HostDevPro-horizontal-white.webp') }}" 
                          alt="HostDevPro" 
-                         class="h-8 md:h-9 w-auto drop-shadow-md">
+                         class="h-9 md:h-10 w-auto drop-shadow-md">
                 </a>
             </div>
 
