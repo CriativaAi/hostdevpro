@@ -165,42 +165,133 @@
                 </div>
             </div>
 
-            <!-- Guia de Apontamento DNS & Desacoplamento de E-mails (ValueHost) -->
+            <!-- Guia Oficial de Apontamento DNS: Web (HostDevPro) & E-mails (ValueHost) -->
             <div class="bg-white rounded-3xl p-6 md:p-8 border border-[#B99470]/25 shadow-sm">
-                <div class="flex items-start gap-4">
-                    <div class="p-3 bg-[#FEFAE0] rounded-2xl text-[#5F6F52]">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-5 mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="p-3 bg-blue-50 rounded-2xl text-blue-600">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-[#783D19]">
+                                Diretrizes Oficiais de Apontamento DNS
+                            </h3>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                Padrão oficial HostDevPro: Aplicação Web na Nuvem VPS Dedicada e E-mails no Cluster ValueHost / MailBaby (configuração no Registro.br ou provedor DNS).
+                            </p>
+                        </div>
                     </div>
-                    <div class="flex-grow">
-                        <h3 class="text-base font-bold text-[#783D19]">
-                            Diretrizes de Apontamento DNS & Configuração de E-mail
-                        </h3>
-                        <p class="text-xs text-gray-600 mt-1 leading-relaxed">
-                            Para máxima performance e entregabilidade, este domínio deve ter a <strong>Zona Web</strong> apontada para o VPS HostDevPro e a <strong>Zona de E-mails (MX)</strong> mantida na ValueHost (configuração no Registro.br ou na zona DNS de autoridade).
+                    <div>
+                        <button onclick="copyDnsInstructions()" id="btn-copy-dns" class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/></svg>
+                            <span id="copy-btn-text">Copiar Registros DNS</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 text-xs">
+                    <!-- Coluna 1: Zona Web (HostDevPro Cloud) -->
+                    <div class="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-[#5F6F52] flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                                <span>🌐</span> Zona Web &bull; Nuvem VPS HostDevPro
+                            </span>
+                            <span class="px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-bold">Nuvem Ativa</span>
+                        </div>
+                        <div class="space-y-2 font-mono">
+                            <div class="p-2.5 rounded-xl bg-white border border-gray-200 flex justify-between items-center">
+                                <div>
+                                    <span class="text-gray-400 text-[10px] block">TIPO A (RAIZ / @)</span>
+                                    <span class="font-bold text-gray-800">{{ $hosting->domain }}</span>
+                                </div>
+                                <code class="text-blue-600 bg-blue-50 px-2 py-1 rounded text-xs">{{ $hosting->server->ip_address }}</code>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-white border border-gray-200 flex justify-between items-center">
+                                <div>
+                                    <span class="text-gray-400 text-[10px] block">CNAME (WWW)</span>
+                                    <span class="font-bold text-gray-800">www.{{ $hosting->domain }}</span>
+                                </div>
+                                <code class="text-blue-600 bg-blue-50 px-2 py-1 rounded text-xs">{{ $hosting->domain }}</code>
+                            </div>
+                        </div>
+                        <p class="text-[11px] text-gray-500 leading-relaxed font-sans">
+                            Tráfego HTTPS com balanceador OpenResty e isolamento de contêineres no servidor {{ $hosting->server->name }}.
                         </p>
+                    </div>
 
-                        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4 text-xs font-mono">
-                            <!-- Apontamento Web -->
-                            <div class="p-4 rounded-xl bg-gray-50 border border-gray-200">
-                                <span class="font-bold text-[#5F6F52] block mb-1">🌐 Web (A / CNAME) &rarr; HostDevPro</span>
-                                <div class="space-y-1 text-gray-700">
-                                    <p><strong>Tipo A:</strong> @ (raiz) &rarr; <code>{{ $hosting->server->ip_address }}</code></p>
-                                    <p><strong>Tipo CNAME:</strong> www &rarr; <code>{{ $hosting->domain }}</code></p>
+                    <!-- Coluna 2: Zona E-mail (ValueHost Cluster) -->
+                    <div class="p-5 rounded-2xl bg-amber-50/50 border border-amber-200/80 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold text-[#C4661F] flex items-center gap-1.5 text-xs uppercase tracking-wider">
+                                <span>✉️</span> E-mails &bull; Cluster ValueHost (Plesk)
+                            </span>
+                            <span class="px-2 py-0.5 rounded-md bg-amber-100 text-amber-800 text-[10px] font-bold">Relay MailBaby</span>
+                        </div>
+                        <div class="space-y-2 font-mono">
+                            <div class="p-2.5 rounded-xl bg-white border border-amber-200/60 flex justify-between items-center">
+                                <div>
+                                    <span class="text-gray-400 text-[10px] block">TIPO A (MAIL)</span>
+                                    <span class="font-bold text-gray-800">mail.{{ $hosting->domain }}</span>
                                 </div>
+                                <code class="text-amber-700 bg-amber-50 px-2 py-1 rounded text-xs">177.136.254.37</code>
                             </div>
-
-                            <!-- Apontamento E-mail -->
-                            <div class="p-4 rounded-xl bg-[#FEFAE0]/50 border border-[#B99470]/30">
-                                <span class="font-bold text-[#C4661F] block mb-1">✉️ E-mails Corporativos &rarr; ValueHost</span>
-                                <div class="space-y-1 text-gray-700">
-                                    <p><strong>Tipo MX:</strong> @ &rarr; Servidores ValueHost</p>
-                                    <p class="text-[11px] text-gray-500 font-sans">Caixas postais, Webmail e IMAP gerenciados com entregabilidade garantida.</p>
+                            <div class="p-2.5 rounded-xl bg-white border border-amber-200/60 flex justify-between items-center">
+                                <div>
+                                    <span class="text-gray-400 text-[10px] block">TIPO MX (PRIORIDADE 10)</span>
+                                    <span class="font-bold text-gray-800">@ (raiz)</span>
                                 </div>
+                                <code class="text-amber-700 bg-amber-50 px-2 py-1 rounded text-xs">mail.{{ $hosting->domain }}</code>
                             </div>
+                            <div class="p-2.5 rounded-xl bg-white border border-amber-200/60 flex justify-between items-center">
+                                <div>
+                                    <span class="text-gray-400 text-[10px] block">TIPO A (WEBMAIL)</span>
+                                    <span class="font-bold text-gray-800">webmail.{{ $hosting->domain }}</span>
+                                </div>
+                                <code class="text-amber-700 bg-amber-50 px-2 py-1 rounded text-xs">177.136.254.37</code>
+                            </div>
+                            <div class="p-2.5 rounded-xl bg-white border border-amber-200/60">
+                                <span class="text-gray-400 text-[10px] block mb-1">TXT (SPF ANTI-SPAM)</span>
+                                <code class="text-[10px] text-amber-800 bg-amber-50 p-1.5 rounded block break-all">v=spf1 +a +mx +a:us163-pl.valueserver.net include:relay.mailbaby.net -all</code>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-1">
+                            <span class="text-[11px] text-gray-500 font-sans">Caixas postais, Roundcube e POP/IMAP/SMTP.</span>
+                            <a href="https://webmail.hostdevpro.app.br" target="_blank" rel="noopener noreferrer" class="text-[11px] font-bold text-blue-600 hover:underline">
+                                Abrir Webmail &rarr;
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <!-- Script para Copiar Instruções de DNS -->
+            <script>
+                function copyDnsInstructions() {
+                    const text = `INSTRUÇÕES DE APONTAMENTO DNS - HOSTDEVPRO CLOUD
+Domínio: {{ $hosting->domain }}
+Cliente: {{ $hosting->client->name }}
+
+1. APONTAMENTO WEB (Site):
+- Entrada: @ (raiz) | Tipo: A | Destino: {{ $hosting->server->ip_address }}
+- Entrada: www | Tipo: CNAME | Destino: {{ $hosting->domain }}
+
+2. APONTAMENTO E-MAILS (Cluster ValueHost / MailBaby):
+- Entrada: mail | Tipo: A | Destino: 177.136.254.37
+- Entrada: webmail | Tipo: A | Destino: 177.136.254.37
+- Entrada: @ (raiz) | Tipo: MX (Prioridade 10) | Destino: mail.{{ $hosting->domain }}
+- Entrada: @ (raiz) | Tipo: TXT (SPF) | Destino: v=spf1 +a +mx +a:us163-pl.valueserver.net include:relay.mailbaby.net -all
+
+Webmail Oficial: https://webmail.hostdevpro.app.br`;
+
+                    navigator.clipboard.writeText(text).then(() => {
+                        const btnText = document.getElementById('copy-btn-text');
+                        btnText.innerText = 'Copiado com Sucesso!';
+                        setTimeout(() => {
+                            btnText.innerText = 'Copiar Registros DNS';
+                        }, 3000);
+                    });
+                }
+            </script>
 
             <!-- Notas Internas -->
             @if ($hosting->notes)

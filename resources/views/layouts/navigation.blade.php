@@ -33,8 +33,21 @@
                 </div>
             </div>
 
+            <!-- Botão de Acesso Rápido ao Webmail -->
+            <div class="hidden sm:flex sm:items-center sm:ms-auto gap-3">
+                <a href="https://webmail.hostdevpro.app.br" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-blue-200 bg-blue-50/80 hover:bg-blue-100 text-blue-700 text-xs font-bold transition shadow-xs group" 
+                   title="Acessar Webmail Roundcube HostDevPro">
+                    <svg class="w-3.5 h-3.5 text-blue-600 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    <span>Webmail</span>
+                    <svg class="w-3 h-3 text-blue-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+            </div>
+
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center sm:ms-4">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -51,6 +64,10 @@
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('Profile') }}
+                        </x-dropdown-link>
+
+                        <x-dropdown-link href="https://webmail.hostdevpro.app.br" target="_blank">
+                            ✉️ {{ __('Acessar Webmail') }}
                         </x-dropdown-link>
 
                         <!-- Links para Termos & Contratos -->
@@ -122,6 +139,9 @@
             <div class="mt-3 space-y-1">
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('Profile') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link href="https://webmail.hostdevpro.app.br" target="_blank" class="text-blue-600 font-semibold">
+                    ✉️ {{ __('Acessar Webmail') }}
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('terms.vps')" target="_blank">
                     {{ __('Contrato de VPS') }}
