@@ -5,16 +5,21 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'HostDevPro') }}</title>
+        <title>{{ config('app.name', 'HostDevPro') }} — Cloud Infrastructure</title>
+        <link rel="icon" type="image/webp" href="{{ asset('brand/icons/HDP-icon-64.webp') }}">
 
         <!-- Fonts -->
         <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600,700,800&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased text-gray-900 bg-gray-100 min-h-screen flex flex-col justify-between relative selection:bg-indigo-600 selection:text-white">
+    <body class="font-sans antialiased text-slate-100 bg-hostdev-cloud min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-emerald-500 selection:text-slate-950">
+        <!-- Elementos decorativos de iluminação (Orbs) -->
+        <div class="fixed top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10" aria-hidden="true"></div>
+        <div class="fixed bottom-10 right-20 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none -z-10" aria-hidden="true"></div>
+
         <!-- Fundo de Código (Easter Egg) -->
         @include('partials.code-background')
 
@@ -24,8 +29,8 @@
 
             <!-- Page Heading -->
             @isset($header)
-                <header class="bg-white/90 backdrop-blur-sm shadow-sm border-b border-gray-200">
-                    <div class="max-w-7xl mx-auto py-5 px-4 sm:px-6 lg:px-8">
+                <header class="bg-[#020617]/70 backdrop-blur-md border-b border-slate-800/80 shadow-md">
+                    <div class="max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8">
                         {{ $header }}
                     </div>
                 </header>
