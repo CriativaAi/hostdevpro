@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Criado com Sucesso | HostDevPro</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Fundo escuro com brilho azul no topo, mantendo a identidade visual */
+        body {
+            background-color: #020617;
+            background-image: radial-gradient(circle at top, #1e3a8a 0%, #020617 50%);
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-6 font-sans antialiased text-gray-200 relative overflow-hidden">
+
+    <!-- Elementos decorativos de fundo -->
+    <div class="absolute top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-10 right-20 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <!-- Container Principal do Card -->
+    <main class="relative z-10 max-w-lg w-full bg-slate-900/60 border border-slate-800 rounded-3xl p-8 sm:p-10 shadow-2xl backdrop-blur-xl text-center">
+        
+        <!-- Logotipo HostDevPro -->
+        <div class="flex justify-center mb-6">
+            <img src="https://app.hostdevpro.app.br/brand/logos/dark/HostDevPro-horizontal-white.webp" alt="HostDevPro" class="h-10 w-auto object-contain">
+        </div>
+
+        <!-- Tag de Status / Badge -->
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-6">
+            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            Hospedagem Ativa & Operacional
+        </div>
+
+        <!-- Título -->
+        <h1 class="text-2xl sm:text-3xl font-bold text-white mb-3 tracking-tight">
+            Seu novo site está no ar!
+        </h1>
+
+        <!-- Descrição -->
+        <p class="text-slate-400 text-sm sm:text-base leading-relaxed mb-8">
+            O ambiente de hospedagem foi provisionado com sucesso em nossos servidores de alta performance. O próximo passo é enviar os arquivos do seu projeto.
+        </p>
+
+        <!-- Passos / Instruções Rápidas -->
+        <div class="bg-slate-950/50 border border-slate-800/80 rounded-2xl p-5 text-left mb-8 space-y-3">
+            <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-2">Próximos Passos:</h2>
+            <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-xs font-bold">1</span>
+                <p class="text-xs text-slate-300">Acesse o seu gerenciador de arquivos ou conecte-se via FTP / SSH.</p>
+            </div>
+            <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-xs font-bold">2</span>
+                <p class="text-xs text-slate-300">Substitua este arquivo <code class="text-blue-300 font-mono bg-blue-950/50 px-1 py-0.5 rounded">index.html</code> pelos arquivos da sua aplicação.</p>
+            </div>
+            <div class="flex items-start gap-3">
+                <span class="flex-shrink-0 w-6 h-6 rounded-full bg-blue-600/20 text-blue-400 flex items-center justify-center text-xs font-bold">3</span>
+                <p class="text-xs text-slate-300">Aponte seus registros DNS ou verifique o certificado SSL.</p>
+            </div>
+        </div>
+
+        <!-- Botões de Ação -->
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+            <a href="https://app.hostdevpro.app.br/login" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold tracking-wider uppercase transition shadow-lg shadow-blue-600/20">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
+                Painel do Cliente
+            </a>
+            <a href="https://app.hostdevpro.app.br/login" class="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold tracking-wider uppercase transition border border-slate-700">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+                Abrir Chamado
+            </a>
+        </div>
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="mt-8 text-center text-xs text-slate-500 relative z-10 flex flex-col sm:flex-row items-center justify-center gap-2">
+        <span>&copy; 2026 HostDevPro Cloud. Todos os direitos reservados.</span>
+        <span class="hidden sm:inline">&bull;</span>
+        <a href="https://www.creativaai.com.br" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition text-[#C4661F] font-semibold">
+            Powered by CreativaAi Hub Technology
+        </a>
+    </footer>
+
+</body>
+</html>

@@ -15,7 +15,11 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased text-gray-900 bg-[#FEFAE0]/70 min-h-screen flex flex-col justify-between relative selection:bg-[#C4661F] selection:text-white">
+    <body class="font-sans antialiased text-gray-100 bg-hostdev-cloud min-h-screen flex flex-col justify-between relative overflow-x-hidden selection:bg-blue-600 selection:text-white">
+        <!-- Elementos decorativos de iluminação (Orbs) -->
+        <div class="fixed top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10" aria-hidden="true"></div>
+        <div class="fixed bottom-10 right-20 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none -z-10" aria-hidden="true"></div>
+
         <!-- Fundo de Código (Easter Egg) -->
         @include('partials.code-background')
 

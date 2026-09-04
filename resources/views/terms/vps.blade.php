@@ -11,22 +11,26 @@
     <!-- Scripts & Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-[#FEFAE0]/60 text-gray-800 min-h-screen flex flex-col justify-between selection:bg-[#C4661F] selection:text-white">
+<body class="font-sans antialiased bg-hostdev-cloud text-gray-100 min-h-screen flex flex-col justify-between selection:bg-blue-600 selection:text-white relative overflow-x-hidden">
+    <!-- Elementos decorativos de iluminação (Orbs) -->
+    <div class="fixed top-20 left-10 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10" aria-hidden="true"></div>
+    <div class="fixed bottom-10 right-20 w-96 h-96 bg-emerald-600/10 rounded-full blur-3xl pointer-events-none -z-10" aria-hidden="true"></div>
+
     <!-- Fundo de Código Easter Egg -->
     @include('partials.code-background')
 
     <!-- Barra de Navegação Superior do Contrato -->
-    <header class="bg-white/90 backdrop-blur-md border-b border-[#B99470]/30 sticky top-0 z-30 shadow-sm">
+    <header class="bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 sticky top-0 z-30 shadow-lg">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
             <a href="/" class="flex items-center gap-3">
-                <img src="{{ asset('brand/logos/light/HostDevPro-horizontal-gradient.webp') }}" alt="HostDevPro" class="h-8 w-auto">
+                <img src="{{ asset('brand/logos/dark/HostDevPro-horizontal-white.webp') }}" alt="HostDevPro" class="h-8 w-auto">
             </a>
             <div class="flex items-center gap-3">
-                <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-200 text-xs font-semibold text-gray-600 hover:bg-gray-50 transition print:hidden">
+                <button onclick="window.print()" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-700 bg-slate-900/60 text-xs font-semibold text-slate-300 hover:bg-slate-800 transition print:hidden">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                     <span>Imprimir / PDF</span>
                 </button>
-                <a href="{{ route('login') }}" class="px-4 py-1.5 rounded-lg bg-[#5F6F52] text-white text-xs font-bold uppercase tracking-wider hover:bg-[#48563e] shadow-sm transition">
+                <a href="{{ route('login') }}" class="px-4 py-1.5 rounded-lg bg-blue-600 text-white text-xs font-bold uppercase tracking-wider hover:bg-blue-500 shadow-sm transition">
                     Portal do Cliente
                 </a>
             </div>

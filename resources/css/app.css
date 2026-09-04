@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fundo Oficial HostDevPro Cloud (Dark Slate + Radial Blue Glow) */
+.bg-hostdev-cloud {
+    background-color: #020617;
+    background-image: radial-gradient(circle at top, #1e3a8a 0%, #020617 50%);
+    background-attachment: fixed;
+}
+
 /* Animação do Marquee Contínuo */
 @keyframes marquee {
     0% {
