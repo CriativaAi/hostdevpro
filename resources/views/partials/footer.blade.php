@@ -145,23 +145,23 @@
                 <!-- Links de Contato Rápido -->
                 <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 sm:gap-6 text-xs">
                     <!-- WhatsApp -->
-                    <a href="https://wa.me/5511939490000" 
+                    <a href="https://wa.me/5511921381308" 
                        target="_blank" 
                        rel="noopener noreferrer" 
                        class="flex items-center gap-2 text-slate-300 hover:text-[#25D366] transition font-medium group">
                         <span class="p-1.5 rounded-lg bg-[#25D366]/10 text-[#25D366] border border-[#25D366]/20 group-hover:scale-110 transition-transform">
                             <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.711 2.598 2.669-.699c.969.539 1.93.824 2.791.825 3.181 0 5.767-2.586 5.768-5.766 0-3.18-2.587-5.765-5.768-5.765zm3.385 8.169c-.145.407-.847.777-1.177.826-.33.048-.759.074-1.229-.074-.326-.103-.746-.245-1.284-.476-2.277-.978-3.766-3.287-3.879-3.438-.113-.151-.926-1.233-.926-2.351 0-1.118.583-1.668.791-1.897.208-.228.455-.286.607-.286.152 0 .303.001.436.008.141.007.33-.053.516.395.193.468.66 1.613.717 1.731.058.118.096.257.019.412-.077.155-.116.252-.232.387-.116.136-.244.305-.349.409-.116.116-.238.243-.102.476.136.233.606.999 1.299 1.616.891.794 1.642 1.039 1.875 1.155.233.116.37.098.506-.058.136-.156.583-.679.739-.912.155-.233.31-.194.524-.116.213.078 1.35.637 1.583.753.233.116.388.174.446.271.058.098.058.564-.087.971z"/></svg>
                         </span>
-                        <span>+55 (11) 9 3949-0000</span>
+                        <span>+55 (11) 9 2138-1308</span>
                     </a>
 
                     <!-- Telefone -->
-                    <a href="tel:+551123919919" 
+                    <a href="tel:+5511964607348" 
                        class="flex items-center gap-2 text-slate-300 hover:text-white transition font-medium group">
                         <span class="p-1.5 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 group-hover:scale-110 transition-transform">
                             <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                         </span>
-                        <span>+55 (11) 2391-9919</span>
+                        <span>+55 (11) 9 6460-7348</span>
                     </a>
 
                     <!-- E-mail -->
