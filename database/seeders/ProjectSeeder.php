@@ -18,9 +18,11 @@ class ProjectSeeder extends Seeder
         $rodrigo = Client::where('email', 'rodrigo@fagundesconsultoria.com.br')->first();
         $beatriz = Client::where('email', 'b.vasconcelos@startuppro.com.br')->first();
 
+        $defaultClientId = Client::first()?->id;
+
         $projects = [
             [
-                'client_id' => $carlos ? $carlos->id : Client::first()->id,
+                'client_id' => $carlos ? $carlos->id : $defaultClientId,
                 'name' => 'Alpha Cloud Manager',
                 'type' => Project::TYPE_SAAS,
                 'status' => Project::STATUS_PRODUCTION,
@@ -31,7 +33,7 @@ class ProjectSeeder extends Seeder
                 'description' => 'Plataforma corporativa de gestão de clientes e instâncias VPS em alta disponibilidade.',
             ],
             [
-                'client_id' => $mariana ? $mariana->id : Client::first()->id,
+                'client_id' => $mariana ? $mariana->id : $defaultClientId,
                 'name' => 'Nexus Microservices Gateway',
                 'type' => Project::TYPE_API,
                 'status' => Project::STATUS_DEVELOPMENT,
@@ -42,7 +44,7 @@ class ProjectSeeder extends Seeder
                 'description' => 'Barramento de microsserviços e mensageria distribuída com autenticação JWT.',
             ],
             [
-                'client_id' => $rodrigo ? $rodrigo->id : Client::first()->id,
+                'client_id' => $rodrigo ? $rodrigo->id : $defaultClientId,
                 'name' => 'Portal Jurídico Fagundes',
                 'type' => Project::TYPE_WEBSITE,
                 'status' => Project::STATUS_PLANNING,
@@ -53,7 +55,7 @@ class ProjectSeeder extends Seeder
                 'description' => 'Website institucional responsivo com integração a agendamento de consultas e blog corporativo.',
             ],
             [
-                'client_id' => $beatriz ? $beatriz->id : Client::first()->id,
+                'client_id' => $beatriz ? $beatriz->id : $defaultClientId,
                 'name' => 'Startup Pro Hub - MVP',
                 'type' => Project::TYPE_SAAS,
                 'status' => Project::STATUS_STAGING,
@@ -66,13 +68,23 @@ class ProjectSeeder extends Seeder
         ];
 
         foreach ($projects as $projectData) {
-            Project::firstOrCreate(
-                [
-                    'client_id' => $projectData['client_id'],
-                    'name' => $projectData['name'],
-                ],
-                $projectData
-            );
+            if (!$projectData['client_id']) {
+                continue;
+            }
+
+            $project = Project::withTrashed()
+                ->where('client_id', $projectData['client_id'])
+                ->where('name', $projectData['name'])
+                ->first();
+
+            if ($project) {
+                if ($project->trashed()) {
+                    $project->restore();
+                }
+                $project->update($projectData);
+            } else {
+                Project::create($projectData);
+            }
         }
     }
 }

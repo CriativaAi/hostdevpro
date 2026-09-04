@@ -56,10 +56,15 @@ class ClientSeeder extends Seeder
         ];
 
         foreach ($clients as $clientData) {
-            Client::firstOrCreate(
-                ['email' => $clientData['email']],
-                $clientData
-            );
+            $client = Client::withTrashed()->where('email', $clientData['email'])->first();
+            if ($client) {
+                if ($client->trashed()) {
+                    $client->restore();
+                }
+                $client->update($clientData);
+            } else {
+                Client::create($clientData);
+            }
         }
     }
 }
