@@ -1,0 +1,67 @@
+{
+  "name": "HostDevPro Cloud",
+  "short_name": "HostDevPro",
+  "description": "Gestão Avançada de Servidores VPS, Hospedagem Plesk e Faturamento Cloud",
+  "start_url": "/dashboard",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#020617",
+  "theme_color": "#020617",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/brand/icons/HDP-icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/icons/HDP-icon-256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/brand/icons/HDP-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/brand/icons/HDP-icon-512.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Área do Cliente",
+      "short_name": "Dashboard",
+      "description": "Acessar o painel da Área do Cliente",
+      "url": "/dashboard",
+      "icons": [{ "src": "/brand/icons/HDP-icon-128.png", "sizes": "128x128" }]
+    },
+    {
+      "name": "Minhas Faturas",
+      "short_name": "Faturas",
+      "description": "Visualizar cobranças e pagar via PIX",
+      "url": "/invoices",
+      "icons": [{ "src": "/brand/icons/HDP-icon-128.png", "sizes": "128x128" }]
+    },
+    {
+      "name": "Abrir Ticket",
+      "short_name": "Suporte",
+      "description": "Abrir novo chamado de atendimento",
+      "url": "/tickets/create",
+      "icons": [{ "src": "/brand/icons/HDP-icon-128.png", "sizes": "128x128" }]
+    },
+    {
+      "name": "Acessar Webmail",
+      "short_name": "Webmail",
+      "description": "Webmail Roundcube oficial",
+      "url": "https://webmail.hostdevpro.app.br",
+      "icons": [{ "src": "/brand/icons/HDP-icon-128.png", "sizes": "128x128" }]
+    }
+  ]
+}

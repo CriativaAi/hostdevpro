@@ -2,10 +2,37 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
         <meta name="csrf-token" content="{{ csrf_token() }}">
 
-        <title>{{ config('app.name', 'HostDevPro') }} — Cloud Infrastructure</title>
+        <!-- SEO Primary Meta Tags -->
+        <title>{{ config('app.name', 'HostDevPro') }} — Gestão Cloud, Hospedagem & VPS</title>
+        <meta name="title" content="{{ config('app.name', 'HostDevPro') }} — Gestão Cloud, Hospedagem & VPS">
+        <meta name="description" content="HostDevPro Cloud: Infraestrutura corporativa de alta performance, instâncias VPS NVMe dedicadas, hospedagem com painel Plesk e faturamento instantâneo com PIX.">
+        <meta name="keywords" content="hospedagem de sites, vps brasil, servidor dedicado, plesk obsidian, nuvem cloud, devops, laravel host">
+        <meta name="robots" content="index, follow">
+
+        <!-- Open Graph / Facebook / WhatsApp -->
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="{{ url()->current() }}">
+        <meta property="og:title" content="HostDevPro Cloud — Infraestrutura & Hospedagem de Alta Performance">
+        <meta property="og:description" content="Nuvem corporativa com latência ultrabaixa no Brasil, servidores NVMe e gestão simplificada.">
+        <meta property="og:image" content="{{ asset('brand/logos/dark/HostDevPro-horizontal-white.webp') }}">
+
+        <!-- Twitter Card -->
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="HostDevPro Cloud — Infraestrutura & Hospedagem">
+        <meta name="twitter:description" content="Gestão avançada de instâncias VPS, contas Plesk e chamados com suporte técnico especializado.">
+        <meta name="twitter:image" content="{{ asset('brand/logos/dark/HostDevPro-horizontal-white.webp') }}">
+
+        <!-- PWA Meta Tags & Icons -->
+        <link rel="manifest" href="/manifest.json">
+        <meta name="theme-color" content="#020617">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+        <meta name="apple-mobile-web-app-title" content="HostDevPro">
+        <link rel="apple-touch-icon" href="{{ asset('brand/icons/HDP-icon-256.png') }}">
         <link rel="icon" type="image/webp" href="{{ asset('brand/icons/HDP-icon-64.webp') }}">
 
         <!-- Fonts -->
@@ -44,5 +71,8 @@
 
         <!-- Rodapé com Marquee e Créditos -->
         @include('partials.footer')
+
+        <!-- Prompt Inteligente de Instalação PWA no Celular -->
+        @include('partials.pwa-install-prompt')
     </body>
 </html>
