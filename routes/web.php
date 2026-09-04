@@ -17,6 +17,10 @@ Route::get('/', function () {
 // Contratos e Termos Oficiais
 Route::view('/termos/contrato-vps', 'terms.vps')->name('terms.vps');
 Route::view('/termos/contrato-hospedagem', 'terms.hosting')->name('terms.hosting');
+Route::view('/termos/privacidade', 'terms.privacy')->name('terms.privacy');
+
+// Monitoramento de Status dos Sistemas em Tempo Real
+Route::view('/status', 'status')->name('status');
 
 // Área do Cliente / Dashboard Dinâmico
 Route::get('/dashboard', [DashboardController::class, 'index'])
