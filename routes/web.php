@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HostingAccountController;
+use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ServerController;
@@ -16,20 +18,33 @@ Route::get('/', function () {
 Route::view('/termos/contrato-vps', 'terms.vps')->name('terms.vps');
 Route::view('/termos/contrato-hospedagem', 'terms.hosting')->name('terms.hosting');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Área do Cliente / Dashboard Dinâmico
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
+    // Clientes & Projetos
     Route::resource('clients', ClientController::class);
     Route::resource('projects', ProjectController::class);
+
+    // Servidores & Hospedagem
     Route::resource('servers', ServerController::class);
     Route::patch('hosting/{hosting}/toggle-status', [HostingAccountController::class, 'toggleStatus'])->name('hosting.toggle-status');
     Route::resource('hosting', HostingAccountController::class);
+
+    // Faturamento & Invoices
+    Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
+    Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
+    Route::post('invoices/{invoice}/stripe', [InvoiceController::class, 'payStripe'])->name('invoices.pay-stripe');
+    Route::post('invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
+
+    // Central de Chamados & Suporte
     Route::post('tickets/{ticket}/reply', [TicketController::class, 'reply'])->name('tickets.reply');
     Route::patch('tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.update-status');
     Route::resource('tickets', TicketController::class);
 
+    // Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

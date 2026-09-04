@@ -68,6 +68,14 @@ class Client extends Model
     }
 
     /**
+     * Faturas e faturamentos do cliente.
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
      * Get the human-readable status label.
      */
     public function getStatusLabelAttribute(): string

@@ -75,6 +75,14 @@ class HostingAccount extends Model
     }
 
     /**
+     * Faturas geradas para esta conta de hospedagem.
+     */
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
+    }
+
+    /**
      * Accessor para label do status.
      */
     public function getStatusLabelAttribute(): string

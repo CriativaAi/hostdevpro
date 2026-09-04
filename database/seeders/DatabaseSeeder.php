@@ -25,12 +25,23 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        User::firstOrCreate(
+            ['email' => 'alex@actualagency.com.br'],
+            [
+                'name' => 'Alexandre (Ale)',
+                'password' => Hash::make('Al951357@2026@#'),
+                'email_verified_at' => now(),
+            ]
+        );
+
         $this->call([
             ClientSeeder::class,
             ProjectSeeder::class,
             ServerSeeder::class,
             HostingAccountSeeder::class,
             TicketSeeder::class,
+            PlanSeeder::class,
+            InvoiceSeeder::class,
         ]);
     }
 }
