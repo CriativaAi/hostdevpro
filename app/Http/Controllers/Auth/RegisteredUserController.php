@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Affiliate;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
@@ -36,11 +37,19 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        $ref = $request->cookie('hdp_affiliate');
+        $affiliate = $ref ? Affiliate::where('referral_code', $ref)->where('status', 'active')->first() : null;
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'referred_by_affiliate_id' => $affiliate?->id,
         ]);
+
+        if ($affiliate) {
+            $affiliate->increment('conversions_count');
+        }
 
         event(new Registered($user));
 

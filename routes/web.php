@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HostingAccountController;
@@ -47,6 +48,12 @@ Route::middleware('auth')->group(function () {
     Route::post('tickets/{ticket}/reply', [TicketController::class, 'reply'])->name('tickets.reply');
     Route::patch('tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.update-status');
     Route::resource('tickets', TicketController::class);
+
+    // Programa de Afiliados & Indicações
+    Route::get('affiliates', [AffiliateController::class, 'index'])->name('affiliates.index');
+    Route::post('affiliates/activate', [AffiliateController::class, 'activate'])->name('affiliates.activate');
+    Route::post('affiliates/withdraw', [AffiliateController::class, 'withdraw'])->name('affiliates.withdraw');
+    Route::put('affiliates/pix', [AffiliateController::class, 'updatePix'])->name('affiliates.update-pix');
 
     // Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

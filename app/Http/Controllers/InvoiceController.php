@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Services\AffiliateCommissionService;
 use App\Services\MercadoPagoService;
 use App\Services\StripeService;
 use Carbon\Carbon;
@@ -88,12 +89,14 @@ class InvoiceController extends Controller
     /**
      * Confirmação / baixa manual de pagamento de fatura.
      */
-    public function markAsPaid(Invoice $invoice): RedirectResponse
+    public function markAsPaid(Invoice $invoice, AffiliateCommissionService $commissionService): RedirectResponse
     {
         $invoice->update([
             'status' => Invoice::STATUS_PAID,
             'paid_at' => Carbon::now(),
         ]);
+
+        $commissionService->creditCommissionForInvoice($invoice);
 
         return back()->with('success', "Fatura {$invoice->invoice_number} confirmada como Paga com sucesso!");
     }

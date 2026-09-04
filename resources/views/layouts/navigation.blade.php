@@ -94,6 +94,14 @@
                         </div>
                     </div>
 
+                    <!-- Afiliados & Indicações -->
+                    <x-nav-link :href="route('affiliates.index')" :active="request()->routeIs('affiliates.*')">
+                        <span class="inline-flex items-center gap-1.5 text-emerald-400 font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                            {{ __('Afiliados') }}
+                        </span>
+                    </x-nav-link>
+
                     <!-- Clientes & Projetos (Gestão) -->
                     <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
                         {{ __('Clientes') }}
@@ -113,16 +121,6 @@
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                     <span class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-extrabold flex items-center justify-center">
                         2
-                    </span>
-                </a>
-
-                <!-- Carrinho 🛒 com badge -->
-                <a href="{{ route('hosting.create') }}" 
-                   class="relative p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition" 
-                   title="Carrinho de Compras">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                    <span class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-blue-600 text-white text-[9px] font-extrabold flex items-center justify-center">
-                        0
                     </span>
                 </a>
 
@@ -160,6 +158,10 @@
                         <x-slot name="content">
                             <x-dropdown-link :href="route('dashboard')">
                                 🏠 {{ __('Área do Cliente') }}
+                            </x-dropdown-link>
+
+                            <x-dropdown-link :href="route('affiliates.index')">
+                                🤝 {{ __('Central de Afiliados (15%)') }}
                             </x-dropdown-link>
 
                             <x-dropdown-link :href="route('invoices.index')">
@@ -214,6 +216,9 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden border-t border-slate-800/80 bg-[#020617] px-4 pt-2 pb-6 space-y-2">
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
             {{ __('Dashboard / Área do Cliente') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('affiliates.index')" :active="request()->routeIs('affiliates.*')">
+            <span class="text-emerald-400 font-bold">{{ __('🤝 Programa de Afiliados') }}</span>
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('hosting.index')" :active="request()->routeIs('hosting.*')">
             {{ __('Meus Serviços / Hospedagens') }}
