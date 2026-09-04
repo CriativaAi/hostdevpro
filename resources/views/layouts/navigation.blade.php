@@ -19,7 +19,7 @@
                     <!-- Dropdown Serviços -->
                     <div class="relative" x-data="{ open: false }" @click.outside="open = false" @close.stop="open = false">
                         <button @click="open = !open" 
-                                class="inline-flex items-center px-3 py-2 text-xs font-semibold rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 focus:outline-none transition {{ request()->routeIs('hosting.*', 'servers.*') ? 'text-emerald-400 bg-slate-800/50' : '' }}">
+                                class="inline-flex items-center px-3 py-2 text-xs font-semibold rounded-xl text-slate-300 hover:text-white hover:bg-slate-800/60 focus:outline-none transition {{ request()->routeIs('hosting.*', 'servers.*', 'ai-builder.*', 'projects.*', 'affiliates.*') ? 'text-emerald-400 bg-slate-800/50' : '' }}">
                             <span>Serviços</span>
                             <svg class="ms-1.5 h-3.5 w-3.5 fill-current opacity-70" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -30,7 +30,8 @@
                              x-transition:enter-start="opacity-0 scale-95"
                              x-transition:enter-end="opacity-100 scale-100"
                              x-transition:leave="transition ease-in duration-100"
-                             class="absolute left-0 mt-2 w-48 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl py-2 z-50">
+                             class="absolute left-0 mt-2 w-60 rounded-2xl bg-slate-900 border border-slate-800 shadow-xl py-2 z-50">
+                            <div class="px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Hospedagem & Infra</div>
                             <a href="{{ route('hosting.index') }}" class="block px-4 py-2 text-xs text-slate-200 hover:bg-slate-800 hover:text-white transition">
                                 🖥️ Meus Serviços
                             </a>
@@ -39,6 +40,27 @@
                             </a>
                             <a href="{{ route('servers.index') }}" class="block px-4 py-2 text-xs text-slate-200 hover:bg-slate-800 hover:text-white transition">
                                 🗄️ Servidores & Nós VPS
+                            </a>
+
+                            <div class="border-t border-slate-800/80 my-1.5"></div>
+                            <div class="px-4 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-500">Recursos & Soluções</div>
+
+                            <a href="{{ route('ai-builder.index') }}" class="flex items-center justify-between px-4 py-2 text-xs text-purple-300 hover:bg-slate-800 hover:text-purple-200 transition font-medium">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                                    <span>✨ Criador de Sites IA</span>
+                                </span>
+                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">Gemini</span>
+                            </a>
+                            <a href="{{ route('projects.index') }}" class="block px-4 py-2 text-xs text-slate-200 hover:bg-slate-800 hover:text-white transition">
+                                📂 Projetos & Domínios
+                            </a>
+                            <a href="{{ route('affiliates.index') }}" class="flex items-center justify-between px-4 py-2 text-xs text-emerald-300 hover:bg-slate-800 hover:text-emerald-200 transition font-medium">
+                                <span class="flex items-center gap-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                                    <span>🤝 Programa de Afiliados</span>
+                                </span>
+                                <span class="text-[9px] px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">15%</span>
                             </a>
                         </div>
                     </div>
@@ -94,28 +116,9 @@
                         </div>
                     </div>
 
-                    <!-- Afiliados & Indicações -->
-                    <x-nav-link :href="route('affiliates.index')" :active="request()->routeIs('affiliates.*')">
-                        <span class="inline-flex items-center gap-1.5 text-emerald-400 font-bold">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            {{ __('Afiliados') }}
-                        </span>
-                    </x-nav-link>
-
-                    <!-- Criador IA Gemini -->
-                    <x-nav-link :href="route('ai-builder.index')" :active="request()->routeIs('ai-builder.*')">
-                        <span class="inline-flex items-center gap-1.5 text-purple-400 font-bold">
-                            <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
-                            {{ __('Criador IA') }}
-                        </span>
-                    </x-nav-link>
-
-                    <!-- Clientes & Projetos (Gestão) -->
+                    <!-- Clientes (Gestão) -->
                     <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
                         {{ __('Clientes') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
-                        {{ __('Projetos') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -225,29 +228,33 @@
         <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
             {{ __('Dashboard / Área do Cliente') }}
         </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('affiliates.index')" :active="request()->routeIs('affiliates.*')">
-            <span class="text-emerald-400 font-bold">{{ __('🤝 Programa de Afiliados') }}</span>
-        </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('ai-builder.index')" :active="request()->routeIs('ai-builder.*')">
-            <span class="text-purple-400 font-bold">{{ __('✨ Criador de Sites IA') }}</span>
-        </x-responsive-nav-link>
+
+        <div class="py-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500">Serviços & Ferramentas</div>
         <x-responsive-nav-link :href="route('hosting.index')" :active="request()->routeIs('hosting.*')">
-            {{ __('Meus Serviços / Hospedagens') }}
-        </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">
-            {{ __('Minhas Faturas') }}
-        </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
-            {{ __('Suporte & Chamados') }}
+            {{ __('🖥️ Meus Serviços / Hospedagens') }}
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('servers.index')" :active="request()->routeIs('servers.*')">
-            {{ __('Servidores VPS') }}
+            {{ __('🗄️ Servidores VPS') }}
         </x-responsive-nav-link>
-        <x-responsive-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
-            {{ __('Clientes') }}
+        <x-responsive-nav-link :href="route('ai-builder.index')" :active="request()->routeIs('ai-builder.*')">
+            <span class="text-purple-400 font-bold">{{ __('✨ Criador de Sites IA (Gemini)') }}</span>
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
-            {{ __('Projetos') }}
+            {{ __('📂 Meus Projetos') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('affiliates.index')" :active="request()->routeIs('affiliates.*')">
+            <span class="text-emerald-400 font-bold">{{ __('🤝 Programa de Afiliados (15%)') }}</span>
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
+            {{ __('👥 Gestão de Clientes') }}
+        </x-responsive-nav-link>
+
+        <div class="py-1 px-3 text-[10px] font-bold uppercase tracking-wider text-slate-500 pt-3 border-t border-slate-800/60">Financeiro & Suporte</div>
+        <x-responsive-nav-link :href="route('invoices.index')" :active="request()->routeIs('invoices.*')">
+            {{ __('📄 Minhas Faturas') }}
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+            {{ __('💬 Suporte & Chamados') }}
         </x-responsive-nav-link>
 
         <div class="pt-4 border-t border-slate-800/80">
