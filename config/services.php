@@ -67,4 +67,15 @@ return [
         'key' => env('GEMINI_API_KEY'),
     ],
 
+
+    'evolution' => [
+        'url' => env('EVOLUTION_API_URL', 'http://127.0.0.1:8080'),
+        'instance' => env('EVOLUTION_INSTANCE', 'HostDevPro'),
+        'token' => env('EVOLUTION_INSTANCE_TOKEN', 'E530B747A900-469A-BB8E-453FFC6032C2'),
+        'global_key' => env('EVOLUTION_GLOBAL_KEY', 'G7aFFCFZHKXDdSW7yBx2Pc5xfCZ5dxaW'),
+    ],
+
+    'n8n' => [
+        'webhook_url' => env('N8N_WEBHOOK_URL', 'http://127.0.0.1:5678/webhook/hostdevpro-invoices'),
+    ],
 ];

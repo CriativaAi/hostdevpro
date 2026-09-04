@@ -15,6 +15,16 @@
                 </p>
             </div>
             <div class="flex items-center gap-2">
+                @if (->client && ->client->phone)
+                    <form method="POST" action="{{ route('invoices.send-whatsapp', ) }}" class="inline">
+                        @csrf
+                        <button type="submit" 
+                                title="Enviar notificação e código PIX para o WhatsApp do cliente"
+                                class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs uppercase tracking-wider transition flex items-center gap-1.5 shadow-sm">
+                            <span>📲</span> Enviar WhatsApp
+                        </button>
+                    </form>
+                @endif
                 <a href="{{ route('invoices.index') }}" 
                    class="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 font-semibold text-xs uppercase tracking-wider hover:bg-gray-50 transition">
                     &larr; Minhas Faturas

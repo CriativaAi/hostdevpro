@@ -6,6 +6,7 @@ use App\Models\Invoice;
 use App\Services\AffiliateCommissionService;
 use App\Services\MercadoPagoService;
 use App\Services\StripeService;
+use App\Services\WhatsAppNotificationService;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -70,6 +71,26 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Disparo manual de notificação de fatura / PIX via WhatsApp.
+     */
+    public function sendWhatsApp(Invoice $invoice, WhatsAppNotificationService $whatsapp): RedirectResponse
+    {
+        $invoice->load(['client']);
+
+        if (!$invoice->client || empty($invoice->client->phone)) {
+            return back()->with('error', 'O cliente vinculado a esta fatura não possui telefone/WhatsApp cadastrado.');
+        }
+
+        $success = $whatsapp->sendInvoiceCreated($invoice);
+
+        if ($success) {
+            return back()->with('success', "Notificação e PIX da fatura {$invoice->invoice_number} enviados com sucesso para o WhatsApp do cliente!");
+        }
+
+        return back()->with('error', 'Não foi possível entregar a notificação WhatsApp. Verifique se o número é válido.');
+    }
+
+    /**
      * Processamento de pagamento com Cartão de Crédito via Stripe.
      */
     public function payStripe(Invoice $invoice, StripeService $stripeService): RedirectResponse
@@ -89,8 +110,11 @@ class InvoiceController extends Controller
     /**
      * Confirmação / baixa manual de pagamento de fatura.
      */
-    public function markAsPaid(Invoice $invoice, AffiliateCommissionService $commissionService): RedirectResponse
-    {
+    public function markAsPaid(
+        Invoice $invoice,
+        AffiliateCommissionService $commissionService,
+        WhatsAppNotificationService $whatsapp
+    ): RedirectResponse {
         $invoice->update([
             'status' => Invoice::STATUS_PAID,
             'paid_at' => Carbon::now(),
@@ -98,6 +122,9 @@ class InvoiceController extends Controller
 
         $commissionService->creditCommissionForInvoice($invoice);
 
-        return back()->with('success', "Fatura {$invoice->invoice_number} confirmada como Paga com sucesso!");
+        // Notifica cliente instantaneamente no WhatsApp sobre o pagamento confirmado
+        $whatsapp->sendInvoicePaid($invoice);
+
+        return back()->with('success', "Fatura {$invoice->invoice_number} confirmada como Paga com sucesso! Notificação enviada ao WhatsApp.");
     }
 }
