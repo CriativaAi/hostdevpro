@@ -139,6 +139,78 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Seção de Projetos Deste Cliente -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                            </svg>
+                            Aplicações & Projetos Vinculados ({{ $client->projects->count() }})
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Sistemas, websites e ferramentas contratados por este cliente.</p>
+                    </div>
+                    <a href="{{ route('projects.create', ['client_id' => $client->id]) }}" class="inline-flex items-center px-3.5 py-2 border border-transparent text-xs font-semibold rounded-lg text-white bg-indigo-600 hover:bg-indigo-700 transition gap-1.5 self-start sm:self-auto shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Novo Projeto para este Cliente
+                    </a>
+                </div>
+
+                @if($client->projects->count() > 0)
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        @foreach($client->projects as $proj)
+                            <div class="rounded-xl border border-gray-100 p-4 hover:border-indigo-200 hover:shadow-sm transition flex flex-col justify-between bg-slate-50/50">
+                                <div>
+                                    <div class="flex items-center justify-between gap-2 mb-2">
+                                        <span class="inline-flex items-center rounded-md px-2 py-0.5 text-xs font-semibold ring-1 ring-inset {{ $proj->status_badge_classes }}">
+                                            {{ $proj->status_label }}
+                                        </span>
+                                        <span class="text-xs text-gray-400 font-medium">
+                                            {{ $proj->type_label }}
+                                        </span>
+                                    </div>
+                                    <h4 class="font-bold text-gray-900 text-sm hover:text-indigo-600 transition">
+                                        <a href="{{ route('projects.show', $proj) }}">{{ $proj->name }}</a>
+                                    </h4>
+                                    @if($proj->description)
+                                        <p class="text-xs text-gray-500 mt-1 line-clamp-2">{{ $proj->description }}</p>
+                                    @endif
+                                </div>
+
+                                <div class="mt-4 pt-3 border-t border-gray-100 flex items-center justify-between text-xs">
+                                    <div class="flex items-center gap-2">
+                                        @if($proj->production_url)
+                                            <a href="{{ $proj->production_url }}" target="_blank" rel="noopener noreferrer" class="text-emerald-700 hover:underline font-semibold" title="Acessar Produção">
+                                                Prod &rarr;
+                                            </a>
+                                        @endif
+                                        @if($proj->repository_url)
+                                            <a href="{{ $proj->repository_url }}" target="_blank" rel="noopener noreferrer" class="text-gray-600 hover:underline" title="Ver Repositório">
+                                                Repo
+                                            </a>
+                                        @endif
+                                    </div>
+                                    <a href="{{ route('projects.show', $proj) }}" class="font-semibold text-indigo-600 hover:text-indigo-800">
+                                        Detalhes &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-8 text-gray-400 text-sm">
+                        <p>Nenhum projeto cadastrado para este cliente até o momento.</p>
+                        <a href="{{ route('projects.create', ['client_id' => $client->id]) }}" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-indigo-600 hover:underline">
+                            + Criar primeiro projeto agora
+                        </a>
+                    </div>
+                @endif
+            </div>
+
         </div>
     </div>
 </x-app-layout>
