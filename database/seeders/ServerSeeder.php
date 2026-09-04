@@ -41,6 +41,20 @@ class ServerSeeder extends Seeder
                 'status' => Server::STATUS_ONLINE,
                 'notes' => 'Instância secundária para homologação, testes de carga e redundância.',
             ],
+            [
+                'name' => 'ValueHost Cluster (us163-pl)',
+                'hostname' => 'us163-pl.valueserver.net',
+                'ip_address' => '177.136.254.37',
+                'provider' => 'ValueHost',
+                'datacenter_location' => 'Brasil / São Paulo',
+                'os' => 'Linux (Plesk Obsidian)',
+                'cpu_cores' => 8,
+                'ram_mb' => 16384,
+                'disk_gb' => 500,
+                'ssh_port' => 22,
+                'status' => Server::STATUS_ONLINE,
+                'notes' => "Servidores DNS:\nns1.valueserver.net (177.93.111.32)\nns2.valueserver.net (187.45.181.114)\nns3.valueserver.net (51.81.81.61)\nns4.valueserver.net (51.222.29.124)\nCluster de Revenda Plesk e E-mails Corporativos.",
+            ],
         ];
 
         foreach ($servers as $serverData) {

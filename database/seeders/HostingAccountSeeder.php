@@ -89,6 +89,21 @@ class HostingAccountSeeder extends Seeder
                 'suspended_reason' => null,
                 'notes' => 'Ambiente da comunidade de mentoria para startups aceleradas.',
             ],
+            [
+                'client_id' => $carlos ? $carlos->id : $defaultClientId,
+                'server_id' => Server::where('ip_address', '177.136.254.37')->first()?->id ?? $serverId,
+                'domain' => 'actualagency.com.br',
+                'username' => 'alexcla1',
+                'plan' => HostingAccount::PLAN_ENTERPRISE,
+                'php_version' => '8.3',
+                'disk_quota_mb' => 51200,
+                'disk_used_mb' => 2048,
+                'bandwidth_quota_mb' => 524288,
+                'ssl_status' => HostingAccount::SSL_NONE,
+                'status' => HostingAccount::STATUS_ACTIVE,
+                'suspended_reason' => null,
+                'notes' => "Conta Master da Revenda ValueHost (Plesk).\nUsuário: alexcla1\nServidor: us163-pl.valueserver.net:8443\nNameservers:\nns1.valueserver.net (177.93.111.32)\nns2.valueserver.net (187.45.181.114)\nns3.valueserver.net (51.81.81.61)\nns4.valueserver.net (51.222.29.124)",
+            ],
         ];
 
         foreach ($accounts as $accountData) {
