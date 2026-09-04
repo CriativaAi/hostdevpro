@@ -69,6 +69,11 @@ class HostingAccount extends Model
     /**
      * Chamados de suporte associados a esta conta de hospedagem.
      */
+    public function aiSites(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AiGeneratedSite::class);
+    }
+
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);

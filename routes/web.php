@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AiSiteBuilderController;
 use App\Http\Controllers\AffiliateController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
@@ -54,6 +55,21 @@ Route::middleware('auth')->group(function () {
     Route::post('affiliates/activate', [AffiliateController::class, 'activate'])->name('affiliates.activate');
     Route::post('affiliates/withdraw', [AffiliateController::class, 'withdraw'])->name('affiliates.withdraw');
     Route::put('affiliates/pix', [AffiliateController::class, 'updatePix'])->name('affiliates.update-pix');
+
+
+    // Criador de Sites Instantâneo com IA Gemini (HDP AI Site Builder)
+    Route::prefix('ai-builder')->name('ai-builder.')->group(function () {
+        Route::get('/', [AiSiteBuilderController::class, 'index'])->name('index');
+        Route::get('/create', [AiSiteBuilderController::class, 'create'])->name('create');
+        Route::post('/', [AiSiteBuilderController::class, 'store'])->name('store');
+        Route::get('/{aiSite}/studio', [AiSiteBuilderController::class, 'studio'])->name('studio');
+        Route::post('/{aiSite}/refine', [AiSiteBuilderController::class, 'refine'])->name('refine');
+        Route::get('/{aiSite}/preview', [AiSiteBuilderController::class, 'preview'])->name('preview');
+        Route::post('/{aiSite}/publish', [AiSiteBuilderController::class, 'publish'])->name('publish');
+        Route::get('/{aiSite}/download/html', [AiSiteBuilderController::class, 'downloadHtml'])->name('download.html');
+        Route::get('/{aiSite}/download/zip', [AiSiteBuilderController::class, 'downloadZip'])->name('download.zip');
+        Route::delete('/{aiSite}', [AiSiteBuilderController::class, 'destroy'])->name('destroy');
+    });
 
     // Perfil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

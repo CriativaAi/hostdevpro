@@ -32,6 +32,11 @@ class User extends Authenticatable
         ];
     }
 
+    public function aiSites(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AiGeneratedSite::class);
+    }
+
     public function affiliate(): HasOne
     {
         return $this->hasOne(Affiliate::class);

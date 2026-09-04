@@ -102,6 +102,14 @@
                         </span>
                     </x-nav-link>
 
+                    <!-- Criador IA Gemini -->
+                    <x-nav-link :href="route('ai-builder.index')" :active="request()->routeIs('ai-builder.*')">
+                        <span class="inline-flex items-center gap-1.5 text-purple-400 font-bold">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse"></span>
+                            {{ __('Criador IA') }}
+                        </span>
+                    </x-nav-link>
+
                     <!-- Clientes & Projetos (Gestão) -->
                     <x-nav-link :href="route('clients.index')" :active="request()->routeIs('clients.*')">
                         {{ __('Clientes') }}
@@ -219,6 +227,9 @@
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('affiliates.index')" :active="request()->routeIs('affiliates.*')">
             <span class="text-emerald-400 font-bold">{{ __('🤝 Programa de Afiliados') }}</span>
+        </x-responsive-nav-link>
+        <x-responsive-nav-link :href="route('ai-builder.index')" :active="request()->routeIs('ai-builder.*')">
+            <span class="text-purple-400 font-bold">{{ __('✨ Criador de Sites IA') }}</span>
         </x-responsive-nav-link>
         <x-responsive-nav-link :href="route('hosting.index')" :active="request()->routeIs('hosting.*')">
             {{ __('Meus Serviços / Hospedagens') }}

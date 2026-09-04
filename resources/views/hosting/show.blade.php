@@ -21,6 +21,12 @@
                 </p>
             </div>
             <div class="flex items-center gap-2">
+                <a href="{{ route('ai-builder.create', ['hosting_id' => $hosting->id]) }}" 
+                   class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs uppercase tracking-wider shadow-md shadow-purple-500/25 transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    <span>✨ Criar Site com IA</span>
+                </a>
+
                 <a href="https://{{ $hosting->domain }}" target="_blank" rel="noopener noreferrer"
                    class="px-4 py-2 rounded-xl bg-[#C4661F] hover:bg-[#a85314] text-white font-bold text-xs uppercase tracking-wider shadow transition flex items-center gap-1.5">
                     <span>Visitar Site</span>
