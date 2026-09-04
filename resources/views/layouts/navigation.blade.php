@@ -27,6 +27,9 @@
                     <x-nav-link :href="route('hosting.index')" :active="request()->routeIs('hosting.*')">
                         {{ __('Hospedagens') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+                        {{ __('Suporte') }}
+                    </x-nav-link>
                 </div>
             </div>
 
@@ -103,6 +106,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('hosting.index')" :active="request()->routeIs('hosting.*')">
                 {{ __('Hospedagens') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('tickets.index')" :active="request()->routeIs('tickets.*')">
+                {{ __('Suporte') }}
             </x-responsive-nav-link>
         </div>
 

@@ -60,6 +60,14 @@ class Client extends Model
     }
 
     /**
+     * Chamados de suporte pertencentes ao cliente.
+     */
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    /**
      * Get the human-readable status label.
      */
     public function getStatusLabelAttribute(): string

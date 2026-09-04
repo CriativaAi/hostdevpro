@@ -300,6 +300,69 @@
                 @endif
             </div>
 
+            <!-- Seção de Chamados de Suporte Deste Cliente -->
+            <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 sm:p-8">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 mb-6">
+                    <div>
+                        <h3 class="text-lg font-bold text-gray-900 flex items-center gap-2">
+                            <svg class="w-5 h-5 text-brand-darkolive" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                            Chamados de Suporte Recentes ({{ $client->tickets->count() }})
+                        </h3>
+                        <p class="text-xs text-gray-500 mt-0.5">Histórico de tickets técnicos, solicitações de infraestrutura e faturamento deste cliente.</p>
+                    </div>
+                    <a href="{{ route('tickets.create', ['client_id' => $client->id]) }}" class="inline-flex items-center px-3.5 py-2 border border-transparent text-xs font-semibold rounded-lg text-white bg-brand-darkolive hover:bg-brand-russet transition gap-1.5 self-start sm:self-auto shadow-sm">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                        </svg>
+                        Novo Chamado para este Cliente
+                    </a>
+                </div>
+
+                @if($client->tickets->count() > 0)
+                    <div class="divide-y divide-gray-100">
+                        @foreach($client->tickets as $t)
+                            <div class="py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-slate-50/60 p-2 rounded-xl transition">
+                                <div class="flex items-start sm:items-center gap-3">
+                                    <span class="font-mono text-xs font-bold text-[#783D19] bg-[#FEFAE0] px-2 py-0.5 rounded border border-[#B99470]/30 shrink-0">
+                                        {{ $t->ticket_number }}
+                                    </span>
+                                    <div>
+                                        <a href="{{ route('tickets.show', $t) }}" class="font-bold text-sm text-gray-900 hover:text-brand-darkolive transition">
+                                            {{ $t->subject }}
+                                        </a>
+                                        <div class="flex items-center gap-2 mt-0.5 text-xs text-gray-500">
+                                            <span>{{ $t->department_label }}</span>
+                                            <span>•</span>
+                                            <span>Atualizado {{ $t->last_reply_at ? $t->last_reply_at->diffForHumans() : $t->created_at->diffForHumans() }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2.5 self-end sm:self-auto">
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-semibold ring-1 ring-inset {{ $t->priority_badge_classes }}">
+                                        {{ $t->priority_label }}
+                                    </span>
+                                    <span class="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-bold ring-1 ring-inset {{ $t->status_badge_classes }}">
+                                        {{ $t->status_label }}
+                                    </span>
+                                    <a href="{{ route('tickets.show', $t) }}" class="text-xs font-semibold text-brand-darkolive hover:underline ml-2">
+                                        Ver &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @else
+                    <div class="text-center py-8 text-gray-400 text-sm">
+                        <p>Nenhum chamado de suporte aberto para este cliente.</p>
+                        <a href="{{ route('tickets.create', ['client_id' => $client->id]) }}" class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-brand-darkolive hover:underline">
+                            + Abrir chamado agora
+                        </a>
+                    </div>
+                @endif
+            </div>
+
         </div>
     </div>
 </x-app-layout>

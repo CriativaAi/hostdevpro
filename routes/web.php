@@ -5,6 +5,7 @@ use App\Http\Controllers\HostingAccountController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ServerController;
+use App\Http\Controllers\TicketController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -25,6 +26,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('servers', ServerController::class);
     Route::patch('hosting/{hosting}/toggle-status', [HostingAccountController::class, 'toggleStatus'])->name('hosting.toggle-status');
     Route::resource('hosting', HostingAccountController::class);
+    Route::post('tickets/{ticket}/reply', [TicketController::class, 'reply'])->name('tickets.reply');
+    Route::patch('tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.update-status');
+    Route::resource('tickets', TicketController::class);
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

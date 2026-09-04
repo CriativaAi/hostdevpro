@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             ProjectSeeder::class,
             ServerSeeder::class,
             HostingAccountSeeder::class,
+            TicketSeeder::class,
         ]);
     }
 }

@@ -46,6 +46,14 @@ class Server extends Model
     }
 
     /**
+     * Chamados de suporte vinculados a este servidor.
+     */
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
+    }
+
+    /**
      * Accessor para label legível do status.
      */
     public function getStatusLabelAttribute(): string

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class HostingAccount extends Model
@@ -63,6 +64,14 @@ class HostingAccount extends Model
     public function server(): BelongsTo
     {
         return $this->belongsTo(Server::class);
+    }
+
+    /**
+     * Chamados de suporte associados a esta conta de hospedagem.
+     */
+    public function tickets(): HasMany
+    {
+        return $this->hasMany(Ticket::class);
     }
 
     /**

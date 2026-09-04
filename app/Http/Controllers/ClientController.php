@@ -75,7 +75,11 @@ class ClientController extends Controller
      */
     public function show(Client $client): View
     {
-        $client->load(['projects', 'hostingAccounts.server']);
+        $client->load([
+            'projects',
+            'hostingAccounts.server',
+            'tickets' => fn ($q) => $q->latest('last_reply_at'),
+        ]);
 
         return view('clients.show', compact('client'));
     }
