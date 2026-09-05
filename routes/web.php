@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AiSiteBuilderController;
 use App\Http\Controllers\AffiliateController;
+use App\Http\Controllers\AppInstallerController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
@@ -77,6 +78,10 @@ Route::middleware('auth')->group(function () {
         // Runtime PHP & SSL
         Route::post('php-version', [HostingControlCenterController::class, 'updatePhp'])->name('update-php');
         Route::post('renew-ssl', [HostingControlCenterController::class, 'renewSsl'])->name('renew-ssl');
+
+        // 1-Click App Marketplace & Installer
+        Route::get('apps', [AppInstallerController::class, 'catalog'])->name('apps.catalog');
+        Route::post('apps/install', [AppInstallerController::class, 'install'])->name('apps.install');
     });
 
     // Faturamento & Invoices

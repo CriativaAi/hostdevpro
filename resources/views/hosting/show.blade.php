@@ -176,6 +176,13 @@
                     <span>📁 Gerenciador de Arquivos & Editor</span>
                 </button>
 
+                <button @click="activeTab = 'apps'; loadAppsCatalog();"
+                        :class="activeTab === 'apps' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' : 'text-slate-400 hover:text-white border-transparent hover:bg-white/[0.04]'"
+                        class="px-4 py-2.5 rounded-2xl text-xs font-bold border transition flex items-center gap-2">
+                    <span class="text-amber-400 font-black">⚡</span>
+                    <span>1-Click Apps & Marketplace</span>
+                </button>
+
                 <button @click="activeTab = 'dns'; loadDnsRecords();"
                         :class="activeTab === 'dns' ? 'bg-cyan-500/20 text-cyan-300 border-cyan-500/40' : 'text-slate-400 hover:text-white border-transparent hover:bg-white/[0.04]'"
                         class="px-4 py-2.5 rounded-2xl text-xs font-bold border transition flex items-center gap-2">
@@ -332,6 +339,120 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
+            </div>
+
+            <!-- ========================================== -->
+            <!-- ABA: 1-CLICK APPS & MARKETPLACE            -->
+            <!-- ========================================== -->
+            <div x-show="activeTab === 'apps'" x-transition class="space-y-6">
+                <!-- Header Banner com Estilo Cyber Glass -->
+                <div class="bg-gradient-to-r from-indigo-950/60 via-slate-900/80 to-cyan-950/60 backdrop-blur-xl rounded-3xl p-6 sm:p-8 border border-white/15 shadow-2xl relative overflow-hidden">
+                    <div class="absolute -right-10 -bottom-10 w-60 h-60 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+                    <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 text-xs font-bold uppercase tracking-wider mb-3">
+                                <span>⚡</span> Automação Instantânea HostDevPro
+                            </div>
+                            <h2 class="text-xl sm:text-2xl font-black text-white tracking-tight">
+                                1-Click App Marketplace & Instalador Automático
+                            </h2>
+                            <p class="text-xs sm:text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
+                                Instale WordPress 6.7 completo em Português, Landing Pages de alta conversão, Laravel 12 ou páginas VIP no domínio <strong class="text-cyan-400">{{ $hosting->domain }}</strong>. Bancos MySQL, credenciais e configurações de segurança são provisionados automaticamente.
+                            </p>
+                        </div>
+                        <div class="flex flex-wrap gap-2 text-xs">
+                            <span class="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-cyan-500/30 text-cyan-300 font-mono flex items-center gap-1.5">
+                                <i class="fa-solid fa-database text-cyan-400"></i> MySQL Provisionado
+                            </span>
+                            <span class="px-3 py-1.5 rounded-xl bg-slate-950/80 border border-emerald-500/30 text-emerald-300 font-mono flex items-center gap-1.5">
+                                <i class="fa-solid fa-shield-halved text-emerald-400"></i> SSL 256-Bit Ready
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Carregamento do Catálogo -->
+                <div x-show="loadingApps" class="py-16 text-center">
+                    <div class="inline-block animate-spin w-8 h-8 border-4 border-cyan-500 border-t-transparent rounded-full mb-3"></div>
+                    <p class="text-xs text-slate-400 font-medium">Carregando catálogo de aplicativos...</p>
+                </div>
+
+                <!-- Grid de Aplicativos -->
+                <div x-show="!loadingApps" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <template x-for="app in appsCatalog" :key="app.id">
+                        <div class="bg-white/[0.04] hover:bg-white/[0.07] backdrop-blur-xl rounded-3xl p-6 sm:p-7 border border-white/10 hover:border-cyan-500/40 transition-all duration-300 shadow-xl flex flex-col justify-between group relative overflow-hidden">
+                            <div class="absolute inset-0 bg-gradient-to-br from-cyan-500/[0.03] to-purple-500/[0.03] opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
+
+                            <div class="relative z-10">
+                                <div class="flex items-start justify-between gap-4 mb-4">
+                                    <div class="flex items-center gap-3.5">
+                                        <div class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl shadow-lg border"
+                                             :class="{
+                                                 'bg-indigo-500/20 text-indigo-400 border-indigo-500/30': app.id === 'wordpress',
+                                                 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30': app.id === 'sales_lp',
+                                                 'bg-rose-500/20 text-rose-400 border-rose-500/30': app.id === 'laravel',
+                                                 'bg-cyan-500/20 text-cyan-400 border-cyan-500/30': app.id === 'coming_soon'
+                                             }">
+                                            <i :class="app.icon"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-base font-extrabold text-white group-hover:text-cyan-300 transition-colors" x-text="app.name"></h3>
+                                            <div class="flex items-center gap-2 mt-1">
+                                                <span class="text-[11px] font-semibold text-slate-400" x-text="app.category"></span>
+                                                <span class="text-slate-600">•</span>
+                                                <span class="text-[10px] font-mono text-cyan-400 bg-cyan-950/60 px-2 py-0.5 rounded-md border border-cyan-500/20" x-text="'v' + app.version"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-end gap-1.5">
+                                        <span class="text-[10px] font-extrabold tracking-wider uppercase px-2.5 py-1 rounded-full border shadow-sm"
+                                              :class="{
+                                                  'bg-indigo-500/20 text-indigo-300 border-indigo-500/30': app.badge_color === 'indigo',
+                                                  'bg-emerald-500/20 text-emerald-300 border-emerald-500/30': app.badge_color === 'emerald',
+                                                  'bg-rose-500/20 text-rose-300 border-rose-500/30': app.badge_color === 'rose',
+                                                  'bg-cyan-500/20 text-cyan-300 border-cyan-500/30': app.badge_color === 'cyan'
+                                              }"
+                                              x-text="app.badge">
+                                        </span>
+                                        <template x-if="app.is_installed">
+                                            <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2 py-0.5 rounded-full flex items-center gap-1">
+                                                <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> Ativo no Site
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <p class="text-xs font-semibold text-slate-300 mb-2" x-text="app.tagline"></p>
+                                <p class="text-xs text-slate-400 leading-relaxed mb-4" x-text="app.description"></p>
+
+                                <div class="bg-slate-950/60 rounded-2xl p-3.5 border border-white/5 mb-5 space-y-2">
+                                    <template x-for="(feat, idx) in app.features" :key="idx">
+                                        <div class="flex items-center gap-2 text-[11px] text-slate-300">
+                                            <i class="fa-solid fa-circle-check text-cyan-400 text-xs"></i>
+                                            <span x-text="feat"></span>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+
+                            <div class="relative z-10 pt-4 border-t border-white/10 flex items-center justify-between gap-4">
+                                <div class="flex items-center gap-2 text-[10px] font-mono text-slate-400">
+                                    <span class="bg-white/5 px-2 py-1 rounded" x-text="app.php_req"></span>
+                                    <span class="bg-white/5 px-2 py-1 rounded" x-text="app.db_req"></span>
+                                </div>
+
+                                <button @click="openInstallModal(app)"
+                                        class="px-5 py-2.5 rounded-xl font-extrabold text-xs transition-all duration-200 flex items-center gap-2 shadow-lg"
+                                        :class="app.is_installed
+                                            ? 'bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700'
+                                            : 'bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 shadow-cyan-500/20'">
+                                    <i class="fa-solid fa-bolt text-xs"></i>
+                                    <span x-text="app.is_installed ? 'Reinstalar App' : 'Instalar em 1-Clique'"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
 
@@ -723,6 +844,193 @@
         </div>
 
         <!-- ========================================== -->
+        <!-- MODAL: INSTALADOR 1-CLIQUE DE APLICATIVOS  -->
+        <!-- ========================================== -->
+        <div x-show="showInstallModal" x-transition.opacity style="display: none;"
+             class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4 overflow-y-auto">
+            <div class="bg-slate-900 border border-white/20 rounded-3xl p-6 sm:p-8 w-full max-w-xl shadow-2xl space-y-6 relative my-8"
+                 @click.away="if (!installingApp) showInstallModal = false">
+                
+                <!-- Cabeçalho do Modal -->
+                <div class="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 flex items-center justify-center text-xl">
+                            <i :class="selectedApp ? selectedApp.icon : 'fa-solid fa-box-open'"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white flex items-center gap-2">
+                                <span x-text="selectedApp ? selectedApp.name : 'Instalar Aplicativo'"></span>
+                            </h3>
+                            <p class="text-[11px] text-slate-400">Domínio de Destino: <strong class="text-cyan-400">{{ $hosting->domain }}</strong></p>
+                        </div>
+                    </div>
+                    <button x-show="!installingApp" @click="showInstallModal = false" class="text-slate-400 hover:text-white transition p-1 text-xl">
+                        &times;
+                    </button>
+                </div>
+
+                <!-- Formulário de Instalação (se ainda não concluiu) -->
+                <div x-show="!installResult" class="space-y-4">
+                    <!-- Opções específicas para WordPress -->
+                    <template x-if="selectedApp && selectedApp.id === 'wordpress'">
+                        <div class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Título do Site WordPress:</label>
+                                <input type="text" x-model="installForm.site_title" placeholder="Meu Novo Site"
+                                       class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                            </div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Usuário Administrador:</label>
+                                    <input type="text" x-model="installForm.admin_user" placeholder="admin"
+                                           class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-400 mb-1">E-mail do Administrador:</label>
+                                    <input type="email" x-model="installForm.admin_email" placeholder="admin@{{ $hosting->domain }}"
+                                           class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                                </div>
+                            </div>
+                            <div class="text-[11px] text-emerald-400 flex items-center gap-1.5 pt-1">
+                                <i class="fa-solid fa-circle-check"></i> Banco MySQL e Senhas 256-bit gerados automaticamente.
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Opções para Landing Page de Vendas -->
+                    <template x-if="selectedApp && selectedApp.id === 'sales_lp'">
+                        <div class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Nome do Produto / Marca:</label>
+                                <input type="text" x-model="installForm.product_name" placeholder="Ex: Minha Empresa Digital"
+                                       class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Headline (Título Principal):</label>
+                                <input type="text" x-model="installForm.headline" placeholder="A Solução Definitiva..."
+                                       class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">WhatsApp para Leads (com DDD):</label>
+                                <input type="text" x-model="installForm.whatsapp" placeholder="5511999999999"
+                                       class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Opções para Coming Soon -->
+                    <template x-if="selectedApp && selectedApp.id === 'coming_soon'">
+                        <div class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-white/5">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">Título do Lançamento:</label>
+                                <input type="text" x-model="installForm.site_title" placeholder="Grande Lançamento Em Breve"
+                                       class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-400 mb-1">WhatsApp de Contato:</label>
+                                <input type="text" x-model="installForm.whatsapp" placeholder="5511999999999"
+                                       class="w-full bg-slate-900 border border-white/15 rounded-xl px-3 py-2 text-xs text-white focus:border-cyan-500 focus:outline-none">
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Checkbox de Limpeza -->
+                    <div class="flex items-center gap-2.5 pt-1">
+                        <input type="checkbox" id="clean_root_checkbox" x-model="installForm.clean_root" class="rounded bg-slate-950 border-white/20 text-cyan-500 focus:ring-cyan-500">
+                        <label for="clean_root_checkbox" class="text-xs text-slate-300">
+                            Limpar arquivos existentes do diretório raiz para uma instalação limpa (Recomendado).
+                        </label>
+                    </div>
+
+                    <!-- Barra de Progresso durante a instalação -->
+                    <div x-show="installingApp" class="space-y-2 pt-3 border-t border-white/10">
+                        <div class="flex justify-between text-xs text-slate-300">
+                            <span class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                                <span x-show="installStep === 1">1/4: Provisionando banco de dados MySQL e ambiente...</span>
+                                <span x-show="installStep === 2">2/4: Extraindo pacotes e gerando arquivos de configuração...</span>
+                                <span x-show="installStep === 3">3/4: Vinculando permissões e otimizando servidor Nginx...</span>
+                                <span x-show="installStep === 4">4/4: Instalação finalizada com sucesso!</span>
+                            </span>
+                            <span class="font-mono text-cyan-400" x-text="installProgress + '%'"></span>
+                        </div>
+                        <div class="w-full bg-slate-950 rounded-full h-2.5 overflow-hidden border border-white/10">
+                            <div class="bg-gradient-to-r from-cyan-500 to-indigo-500 h-2.5 rounded-full transition-all duration-300"
+                                 :style="'width: ' + installProgress + '%'"></div>
+                        </div>
+                    </div>
+
+                    <!-- Botões de Ação -->
+                    <div x-show="!installingApp" class="flex justify-end gap-3 pt-3 border-t border-white/10">
+                        <button @click="showInstallModal = false" class="px-5 py-2.5 rounded-xl text-xs font-bold text-slate-400 hover:text-white transition">
+                            Cancelar
+                        </button>
+                        <button @click="triggerInstallApp()" class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-indigo-600 hover:from-cyan-400 hover:to-indigo-500 text-slate-950 font-black text-xs shadow-lg shadow-cyan-500/20 transition-all flex items-center gap-2">
+                            <i class="fa-solid fa-rocket"></i>
+                            <span>Iniciar Instalação Agora</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Box de Resultado / Credenciais Geradas -->
+                <div x-show="installResult" class="space-y-4">
+                    <div class="bg-emerald-950/40 border border-emerald-500/40 rounded-2xl p-5 space-y-3">
+                        <div class="flex items-center gap-3 text-emerald-400">
+                            <i class="fa-solid fa-circle-check text-2xl"></i>
+                            <div>
+                                <h4 class="text-sm font-bold text-white">Instalação Concluída com Sucesso!</h4>
+                                <p class="text-xs text-slate-300" x-text="installResult ? installResult.message : ''"></p>
+                            </div>
+                        </div>
+
+                        <!-- Credenciais se houver -->
+                        <template x-if="installResult && installResult.credentials">
+                            <div class="bg-slate-950/90 rounded-xl p-4 border border-emerald-500/20 text-xs font-mono space-y-2 mt-2">
+                                <p class="text-[11px] font-sans font-bold text-emerald-300 uppercase tracking-wider mb-2">Credenciais Provisionadas:</p>
+                                <template x-if="installResult.credentials.db_name">
+                                    <div class="flex justify-between border-b border-white/5 pb-1">
+                                        <span class="text-slate-400">Banco MySQL:</span>
+                                        <span class="text-cyan-400 font-bold" x-text="installResult.credentials.db_name"></span>
+                                    </div>
+                                </template>
+                                <template x-if="installResult.credentials.db_user">
+                                    <div class="flex justify-between border-b border-white/5 pb-1">
+                                        <span class="text-slate-400">Usuário MySQL:</span>
+                                        <span class="text-indigo-400" x-text="installResult.credentials.db_user"></span>
+                                    </div>
+                                </template>
+                                <template x-if="installResult.credentials.db_pass">
+                                    <div class="flex justify-between border-b border-white/5 pb-1">
+                                        <span class="text-slate-400">Senha do Banco:</span>
+                                        <span class="text-emerald-400" x-text="installResult.credentials.db_pass"></span>
+                                    </div>
+                                </template>
+                                <template x-if="installResult.credentials.admin_user">
+                                    <div class="flex justify-between border-b border-white/5 pb-1">
+                                        <span class="text-slate-400">Usuário WP:</span>
+                                        <span class="text-amber-400" x-text="installResult.credentials.admin_user"></span>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
+                        <template x-if="installResult && installResult.site_url">
+                            <a :href="installResult.site_url" target="_blank" class="w-full sm:w-auto text-center px-6 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 text-xs font-black transition">
+                                <i class="fa-solid fa-arrow-up-right-from-square mr-1"></i> Abrir Site Instalado
+                            </a>
+                        </template>
+                        <button @click="showInstallModal = false; activeTab = 'files'; loadFiles();" class="w-full sm:w-auto px-6 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold transition">
+                            Ver Arquivos no Gerenciador
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- ========================================== -->
         <!-- MODAL: HOSTDEVPRO CODE STUDIO (EDITOR)     -->
         <!-- ========================================== -->
         <div x-show="showEditorModal" x-transition.opacity style="display: none;"
@@ -929,8 +1237,30 @@
                 showNewDbModal: false,
                 newDb: { name: '', username: '', password: '' },
 
+                // 1-Click Apps & Marketplace
+                appsCatalog: [],
+                loadingApps: false,
+                showInstallModal: false,
+                selectedApp: null,
+                installingApp: false,
+                installStep: 0,
+                installProgress: 0,
+                installResult: null,
+                installForm: {
+                    site_title: '{{ $hosting->domain }}',
+                    admin_user: 'admin',
+                    admin_email: '{{ $hosting->client?->email ?? "admin@" . $hosting->domain }}',
+                    admin_pass: '',
+                    product_name: '{{ $hosting->domain }}',
+                    headline: 'A Solução Definitiva Para o Seu Negócio Online',
+                    subheadline: 'Infraestrutura de alta performance com estabilidade e tecnologia de ponta.',
+                    whatsapp: '{{ $hosting->client?->whatsapp ?? "5511999999999" }}',
+                    clean_root: true,
+                },
+
                 init() {
                     this.loadFiles();
+                    this.loadAppsCatalog();
                 },
 
                 // Gestão de Arquivos
@@ -1283,6 +1613,81 @@
                         }
                     } catch (e) {
                         this.notify('Erro ao renovar SSL: ' + e.message, 'error');
+                    }
+                },
+
+                // 1-Click Apps & Marketplace
+                async loadAppsCatalog() {
+                    this.loadingApps = true;
+                    try {
+                        const res = await fetch(`{{ route('hosting.control.apps.catalog', $hosting) }}`);
+                        const data = await res.json();
+                        if (data.success) {
+                            this.appsCatalog = data.apps;
+                        }
+                    } catch (e) {
+                        this.notify('Erro ao carregar catálogo: ' + e.message, 'error');
+                    } finally {
+                        this.loadingApps = false;
+                    }
+                },
+
+                openInstallModal(app) {
+                    this.selectedApp = app;
+                    this.installResult = null;
+                    this.installProgress = 0;
+                    this.installStep = 0;
+                    this.installingApp = false;
+                    this.showInstallModal = true;
+                },
+
+                async triggerInstallApp() {
+                    if (!this.selectedApp) return;
+                    this.installingApp = true;
+                    this.installProgress = 20;
+                    this.installStep = 1;
+
+                    const timer = setInterval(() => {
+                        if (this.installProgress < 85) {
+                            this.installProgress += 15;
+                            if (this.installProgress >= 40 && this.installStep === 1) this.installStep = 2;
+                            if (this.installProgress >= 70 && this.installStep === 2) this.installStep = 3;
+                        }
+                    }, 400);
+
+                    try {
+                        const payload = {
+                            app_id: this.selectedApp.id,
+                            ...this.installForm
+                        };
+
+                        const res = await fetch(`{{ route('hosting.control.apps.install', $hosting) }}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(payload)
+                        });
+
+                        clearInterval(timer);
+                        const data = await res.json();
+
+                        if (data.success) {
+                            this.installProgress = 100;
+                            this.installStep = 4;
+                            this.installResult = data.data;
+                            this.notify(data.message || 'Aplicação instalada com sucesso!');
+                            this.loadAppsCatalog();
+                        } else {
+                            this.notify(data.message || 'Falha ao instalar aplicativo.', 'error');
+                        }
+                    } catch (e) {
+                        clearInterval(timer);
+                        this.notify('Erro na instalação: ' + e.message, 'error');
+                    } finally {
+                        this.installingApp = false;
                     }
                 },
 
