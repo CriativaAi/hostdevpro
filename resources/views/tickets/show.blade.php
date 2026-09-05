@@ -96,6 +96,53 @@
                                         ⚠️ Esta mensagem é visível exclusivamente pela equipe da HostDevPro.
                                     </p>
                                 </div>
+                            @elseif ($reply->is_ai)
+                                <!-- Resposta Autônoma do HostDevPro AI Copilot (Google Gemini) -->
+                                <div class="bg-gradient-to-b from-indigo-950/70 via-slate-900/90 to-slate-950/90 backdrop-blur-2xl rounded-3xl p-6 md:p-7 border-2 border-indigo-500/40 shadow-2xl relative overflow-hidden group">
+                                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/15 rounded-full blur-3xl pointer-events-none"></div>
+                                    <div class="absolute -bottom-24 -left-24 w-48 h-48 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+                                    <div class="flex flex-col sm:flex-row sm:items-center justify-between border-b border-indigo-500/20 pb-4 mb-4 gap-3 relative">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-indigo-600 via-purple-600 to-emerald-400 p-0.5 shadow-lg shadow-indigo-500/30 flex items-center justify-center shrink-0">
+                                                <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center">
+                                                    <span class="text-lg animate-pulse">🤖</span>
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div class="flex items-center gap-2">
+                                                    <span class="font-black text-sm text-white tracking-tight">HostDevPro AI Copilot</span>
+                                                    <span class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-indigo-300 border border-indigo-500/30 text-[10px] font-bold uppercase tracking-wider flex items-center gap-1">
+                                                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                                        Gemini 2.5 Flash
+                                                    </span>
+                                                </div>
+                                                <span class="text-[11px] text-slate-400 font-medium">Diagnóstico Ativo em Tempo Real &bull; Atendimento 24/7</span>
+                                            </div>
+                                        </div>
+                                        <div class="text-xs text-slate-400 font-mono">
+                                            {{ $reply->created_at->format('d/m/Y \à\s H:i') }} ({{ $reply->created_at->diffForHumans() }})
+                                        </div>
+                                    </div>
+
+                                    <div class="text-sm text-slate-100 leading-relaxed font-sans whitespace-pre-line space-y-2">
+                                        {{ $reply->message }}
+                                    </div>
+
+                                    <div class="mt-5 pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 text-xs">
+                                        <div class="flex items-center gap-2 text-slate-400">
+                                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                                            <span>Diagnóstico e solução gerados automaticamente com dados oficiais da HostDevPro Cloud</span>
+                                        </div>
+                                        <div class="flex items-center gap-2">
+                                            <button type="button" 
+                                                    onclick="navigator.clipboard.writeText(`{{ addslashes($reply->message) }}`).then(() => alert('Orientação da IA copiada com sucesso!'))"
+                                                    class="px-3 py-1.5 rounded-xl bg-white/[0.06] hover:bg-white/[0.12] text-slate-200 hover:text-white border border-white/15 text-xs font-bold transition flex items-center gap-1.5">
+                                                📋 Copiar Solução
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             @elseif ($reply->is_staff)
                                 <!-- Resposta do Staff / Suporte (Verde Esmeralda) -->
                                 <div class="bg-slate-900/70 backdrop-blur-xl rounded-3xl p-6 border-l-4 border-l-emerald-500 border border-white/10 shadow-xl">
@@ -138,6 +185,140 @@
                         @endforeach
                     </div>
 
+                    <!-- HostDevPro AI Copilot Action Deck -->
+                    <div class="bg-gradient-to-r from-indigo-950/50 via-slate-900/60 to-purple-950/40 backdrop-blur-2xl rounded-3xl p-6 border-2 border-indigo-500/30 shadow-2xl relative overflow-hidden" x-data="{
+                        loadingAi: false,
+                        diagnosing: false,
+                        diagResult: null,
+                        generateAiSuggestion() {
+                            this.loadingAi = true;
+                            fetch('{{ route('tickets.ai-reply', $ticket) }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Accept': 'application/json'
+                                },
+                                body: JSON.stringify({ action: 'draft' })
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                this.loadingAi = false;
+                                if (data.message) {
+                                    const textarea = document.getElementById('ticket-reply-textarea');
+                                    if (textarea) {
+                                        textarea.value = data.message;
+                                        textarea.scrollIntoView({ behavior: 'smooth' });
+                                    }
+                                } else {
+                                    alert('Não foi possível gerar a sugestão da IA no momento.');
+                                }
+                            })
+                            .catch(err => {
+                                this.loadingAi = false;
+                                alert('Erro de conexão com o Gemini: ' + err.message);
+                            });
+                        },
+                        runDiagnostics() {
+                            this.diagnosing = true;
+                            fetch('{{ route('tickets.ai-diagnose', $ticket) }}', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                                    'Accept': 'application/json'
+                                }
+                            })
+                            .then(res => res.json())
+                            .then(data => {
+                                this.diagnosing = false;
+                                if (data.success) {
+                                    this.diagResult = data.diagnostics;
+                                }
+                            })
+                            .catch(err => {
+                                this.diagnosing = false;
+                                alert('Erro ao executar diagnóstico: ' + err.message);
+                            });
+                        }
+                    }">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-indigo-500/20 pb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-2xl bg-indigo-600/30 text-indigo-300 border border-indigo-500/40 flex items-center justify-center font-black text-lg">
+                                    ⚡
+                                </div>
+                                <div>
+                                    <div class="flex items-center gap-2">
+                                        <h4 class="font-black text-sm text-white tracking-tight">HostDevPro AI Copilot Deck</h4>
+                                        <span class="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[10px] font-bold uppercase">Ao Vivo</span>
+                                    </div>
+                                    <p class="text-xs text-slate-400">Diagnóstico autônomo de infraestrutura, DNS, SSL e resolução com Google Gemini</p>
+                                </div>
+                            </div>
+
+                            <div class="flex flex-wrap items-center gap-2">
+                                <!-- Botão Diagnosticar -->
+                                <button type="button" 
+                                        @click="runDiagnostics()"
+                                        :disabled="diagnosing"
+                                        class="px-4 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] text-white border border-white/15 text-xs font-bold transition flex items-center gap-1.5 shadow-sm">
+                                    <span x-show="!diagnosing">🔍 Raio-X do Domínio</span>
+                                    <span x-show="diagnosing" style="display: none;">Verificando DNS/SSL...</span>
+                                </button>
+
+                                <!-- Botão Sugerir IA -->
+                                <button type="button" 
+                                        @click="generateAiSuggestion()"
+                                        :disabled="loadingAi"
+                                        class="px-4 py-2 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-400 hover:to-purple-500 text-white font-bold text-xs transition flex items-center gap-1.5 shadow-lg shadow-indigo-500/20">
+                                    <span x-show="!loadingAi">✨ Rascunhar com Gemini</span>
+                                    <span x-show="loadingAi" style="display: none;">IA Escrevendo Solução...</span>
+                                </button>
+
+                                <!-- Botão Envio Imediato -->
+                                <form method="POST" action="{{ route('tickets.ai-reply', $ticket) }}" class="inline">
+                                    @csrf
+                                    <input type="hidden" name="action" value="post">
+                                    <button type="submit" 
+                                            onclick="return confirm('Deseja que a IA Gemini gere e envie a resposta oficial imediatamente para este chamado e notifique o WhatsApp do cliente?');"
+                                            class="px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 hover:from-emerald-400 hover:to-teal-300 text-slate-950 font-black text-xs uppercase tracking-wider transition flex items-center gap-1.5 shadow-lg shadow-emerald-500/20">
+                                        <span>🤖 Disparar Resposta IA</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Painel de Resultados do Diagnóstico (Expandido quando solicitado) -->
+                        <div x-show="diagResult" style="display: none;" class="mt-4 p-4 rounded-2xl bg-black/60 border border-indigo-500/30 text-xs space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-bold text-white flex items-center gap-2">
+                                    <span>🌐 Telemetria do Domínio:</span>
+                                    <code class="text-emerald-400 font-mono" x-text="diagResult?.domain"></code>
+                                </span>
+                                <button type="button" @click="diagResult = null" class="text-slate-400 hover:text-white text-base leading-none">&times;</button>
+                            </div>
+
+                            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold block">Servidores DNS (NS)</span>
+                                    <span class="font-bold block mt-1" :class="diagResult?.dns?.is_hostdevpro_ns ? 'text-emerald-400' : 'text-amber-400'" x-text="diagResult?.dns?.is_hostdevpro_ns ? '✓ HostDevPro OK' : 'Outros DNS'"></span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold block">Status HTTP</span>
+                                    <span class="font-bold block mt-1" :class="diagResult?.http?.online ? 'text-emerald-400' : 'text-rose-400'" x-text="diagResult?.http?.online ? ('✓ Online (' + diagResult?.http?.status + ')') : 'Offline'"></span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold block">Certificado SSL</span>
+                                    <span class="font-bold block mt-1" :class="diagResult?.http?.ssl_valid ? 'text-emerald-400' : 'text-amber-400'" x-text="diagResult?.http?.ssl_valid ? '✓ Válido' : 'Pendente'"></span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-white/[0.04] border border-white/10">
+                                    <span class="text-[10px] text-slate-400 uppercase font-bold block">Financeiro</span>
+                                    <span class="font-bold block mt-1" :class="diagResult?.has_financial_block ? 'text-rose-400' : 'text-emerald-400'" x-text="diagResult?.has_financial_block ? 'Faturas Pendentes' : '✓ Em Dia'"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Formulário de Nova Resposta / Nota Interna -->
                     @if ($ticket->status !== \App\Models\Ticket::STATUS_CLOSED)
                         <div class="bg-white/[0.06] backdrop-blur-xl rounded-3xl p-6 md:p-8 border border-white/15 shadow-xl">
@@ -150,9 +331,10 @@
                                 @csrf
                                 <div>
                                     <textarea name="message" 
+                                              id="ticket-reply-textarea"
                                               rows="5" 
                                               required
-                                              placeholder="Digite sua resposta técnica ou orientação para o cliente..."
+                                              placeholder="Digite sua resposta técnica ou orientação para o cliente (ou clique em 'Rascunhar com Gemini' acima)..."
                                               class="w-full rounded-2xl bg-slate-900/80 border border-white/15 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-emerald-500 text-sm shadow-inner">{{ old('message') }}</textarea>
                                     @error('message')
                                         <p class="text-xs text-rose-400 mt-1 font-medium">{{ $message }}</p>

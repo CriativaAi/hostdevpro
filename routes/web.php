@@ -60,6 +60,8 @@ Route::middleware('auth')->group(function () {
     Route::post('invoices/{invoice}/send-whatsapp', [InvoiceController::class, 'sendWhatsApp'])->name('invoices.send-whatsapp');
 
     // Central de Chamados & Suporte
+    Route::post('tickets/{ticket}/ai-diagnose', [TicketController::class, 'aiDiagnose'])->name('tickets.ai-diagnose');
+    Route::post('tickets/{ticket}/ai-reply', [TicketController::class, 'aiReply'])->name('tickets.ai-reply');
     Route::post('tickets/{ticket}/reply', [TicketController::class, 'reply'])->name('tickets.reply');
     Route::patch('tickets/{ticket}/status', [TicketController::class, 'updateStatus'])->name('tickets.update-status');
     Route::resource('tickets', TicketController::class);

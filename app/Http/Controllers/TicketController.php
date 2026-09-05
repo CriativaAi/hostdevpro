@@ -12,6 +12,8 @@ use App\Models\Server;
 use App\Models\Ticket;
 use App\Models\TicketReply;
 use App\Models\User;
+use App\Services\GeminiSupportService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -106,7 +108,7 @@ class TicketController extends Controller
     /**
      * Salvar novo chamado e mensagem inicial.
      */
-    public function store(StoreTicketRequest $request): RedirectResponse
+    public function store(StoreTicketRequest $request, GeminiSupportService $gemini): RedirectResponse
     {
         $validated = $request->validated();
         $message = $validated['message'];
@@ -130,9 +132,12 @@ class TicketController extends Controller
             'is_internal_note' => false,
         ]);
 
+        // Auto-atendimento e diagnóstico autônomo imediato via IA Gemini
+        $gemini->autoReplyAndNotify($ticket);
+
         return redirect()
             ->route('tickets.show', $ticket)
-            ->with('success', "Chamado {$ticket->ticket_number} aberto com sucesso!");
+            ->with('success', "Chamado {$ticket->ticket_number} aberto com sucesso e analisado pelo HostDevPro AI Copilot!");
     }
 
     /**
@@ -222,5 +227,45 @@ class TicketController extends Controller
         return redirect()
             ->route('tickets.index')
             ->with('success', "Chamado {$number} excluído com sucesso!");
+    }
+
+    /**
+     * Executa diagnóstico em tempo real de infraestrutura via IA Gemini.
+     */
+    public function aiDiagnose(Ticket $ticket, GeminiSupportService $gemini): JsonResponse
+    {
+        $diagnostics = $gemini->diagnoseTicket($ticket);
+
+        return response()->json([
+            'success' => true,
+            'ticket_number' => $ticket->ticket_number,
+            'diagnostics' => $diagnostics,
+        ]);
+    }
+
+    /**
+     * Gera rascunho de resposta ou publica resposta oficial do HostDevPro AI Copilot.
+     */
+    public function aiReply(Request $request, Ticket $ticket, GeminiSupportService $gemini): JsonResponse|RedirectResponse
+    {
+        $action = $request->input('action', 'post'); // 'draft' ou 'post'
+        $instructions = $request->input('instructions');
+
+        if ($action === 'draft' || $request->wantsJson()) {
+            $result = $gemini->generateReply($ticket, $instructions);
+            return response()->json($result);
+        }
+
+        $reply = $gemini->autoReplyAndNotify($ticket, $instructions);
+
+        if ($reply) {
+            return redirect()
+                ->route('tickets.show', $ticket)
+                ->with('success', '⚡ Resposta do HostDevPro AI Copilot gerada e enviada com sucesso!');
+        }
+
+        return redirect()
+            ->route('tickets.show', $ticket)
+            ->with('error', 'Não foi possível gerar a resposta com a IA no momento.');
     }
 }

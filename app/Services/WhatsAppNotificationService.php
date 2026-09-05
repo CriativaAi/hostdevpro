@@ -269,6 +269,48 @@ class WhatsAppNotificationService
     }
 
     /**
+     * Notifica o cliente no WhatsApp sobre resposta técnica da IA Gemini no chamado.
+     */
+    public function sendTicketAiReply(Ticket $ticket, string $aiMessage): bool
+    {
+        $ticket->loadMissing(['client']);
+        $client = $ticket->client;
+
+        if (!$client || empty($client->phone)) {
+            return false;
+        }
+
+        $ticketUrl = "https://app.hostdevpro.app.br/tickets/{$ticket->id}";
+
+        // Encurta a mensagem se for muito longa para o WhatsApp
+        $shortText = strip_tags($aiMessage);
+        if (mb_strlen($shortText) > 400) {
+            $shortText = mb_substr($shortText, 0, 397) . '...';
+        }
+
+        $msg = "🤖 *HostDevPro — Atendimento com IA Concluído*\n\n";
+        $msg .= "Olá, *{$client->name}*!\n";
+        $msg .= "Seu chamado *{$ticket->ticket_number}* foi analisado pelo nosso sistema autônomo com IA:\n\n";
+        $msg .= "📌 *Assunto:* {$ticket->subject}\n";
+        $msg .= "🛡️ *Resumo do Diagnóstico:*\n";
+        $msg .= "{$shortText}\n\n";
+        $msg .= "🔗 *Acesse a resposta completa e acompanhe:*\n";
+        $msg .= "{$ticketUrl}\n\n";
+        $msg .= "⚡ _HostDevPro Cloud & Infrastructure AI_";
+
+        $res = $this->sendMessage($client->phone, $msg);
+
+        $this->notifyN8n('ticket.ai_reply', [
+            'ticket_id' => $ticket->id,
+            'ticket_number' => $ticket->ticket_number,
+            'client_name' => $client->name,
+            'client_phone' => $client->phone,
+        ]);
+
+        return $res['success'] ?? false;
+    }
+
+    /**
      * Envia evento para o webhook do n8n de forma segura.
      */
     protected function notifyN8n(string $event, array $payload): void

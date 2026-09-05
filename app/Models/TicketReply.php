@@ -14,6 +14,7 @@ class TicketReply extends Model
 
     const AUTHOR_TYPE_STAFF = 'staff';
     const AUTHOR_TYPE_CLIENT = 'client';
+    const AUTHOR_TYPE_AI = 'ai';
 
     protected $fillable = [
         'ticket_id',
@@ -65,5 +66,10 @@ class TicketReply extends Model
     public function getIsClientAttribute(): bool
     {
         return $this->author_type === self::AUTHOR_TYPE_CLIENT;
+    }
+
+    public function getIsAiAttribute(): bool
+    {
+        return $this->author_type === self::AUTHOR_TYPE_AI;
     }
 }
