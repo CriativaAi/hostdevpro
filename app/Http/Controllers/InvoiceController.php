@@ -108,6 +108,23 @@ class InvoiceController extends Controller
     }
 
     /**
+     * Processamento de pagamento com Cartão de Crédito / Débito via Mercado Pago Checkout Pro.
+     */
+    public function payMercadoPago(Invoice $invoice, MercadoPagoService $mpService): RedirectResponse
+    {
+        $successUrl = route('invoices.show', ['invoice' => $invoice, 'paid' => 1]);
+        $cancelUrl = route('invoices.show', $invoice);
+
+        $result = $mpService->createPreference($invoice, $successUrl, $cancelUrl);
+
+        if ($result['success'] && !empty($result['init_point'])) {
+            return redirect()->away($result['init_point']);
+        }
+
+        return back()->with('error', 'Não foi possível iniciar o checkout do Mercado Pago no momento.');
+    }
+
+    /**
      * Confirmação / baixa manual de pagamento de fatura.
      */
     public function markAsPaid(

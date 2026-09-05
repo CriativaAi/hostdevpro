@@ -21,9 +21,9 @@ class MercadoPagoService
      * Cria uma Preferência do Mercado Pago Checkout Pro
      * (Permite Cartão de Crédito em até 12x, Cartão de Débito, PIX e Boleto).
      */
-    public function createPreference(Invoice $invoice): array
+    public function createPreference(Invoice $invoice, ?string $successUrl = null, ?string $failureUrl = null): array
     {
-        $amount = round($invoice->amount_cents / 100, 2);
+        $amount = round(($invoice->amount_cents > 0 ? $invoice->amount_cents : 5999) / 100, 2);
         $client = $invoice->client;
 
         if (!$this->accessToken) {
@@ -39,9 +39,9 @@ class MercadoPagoService
                 $cleanDomain = trim($m[1]);
             }
 
-            $successUrl = route('checkout.confirm', $invoice);
-            $pendingUrl = route('checkout.payment', $invoice);
-            $failureUrl = route('checkout.payment', $invoice);
+            $successUrl = $successUrl ?? (\Illuminate\Support\Facades\Route::has('checkout.confirm') ? route('checkout.confirm', $invoice) : route('invoices.show', ['invoice' => $invoice, 'payment' => 'success']));
+            $pendingUrl = $failureUrl ?? (\Illuminate\Support\Facades\Route::has('checkout.payment') ? route('checkout.payment', $invoice) : route('invoices.show', $invoice));
+            $failureUrl = $failureUrl ?? (\Illuminate\Support\Facades\Route::has('checkout.payment') ? route('checkout.payment', $invoice) : route('invoices.show', $invoice));
 
             $payload = [
                 'items' => [
@@ -108,7 +108,7 @@ class MercadoPagoService
      */
     public function createPixPayment(Invoice $invoice): array
     {
-        $amount = round($invoice->amount_cents / 100, 2);
+        $amount = round(($invoice->amount_cents > 0 ? $invoice->amount_cents : 5999) / 100, 2);
         $client = $invoice->client;
 
         if (!$this->accessToken) {

@@ -55,6 +55,7 @@ Route::middleware('auth')->group(function () {
     Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
     Route::get('invoices/{invoice}', [InvoiceController::class, 'show'])->name('invoices.show');
     Route::post('invoices/{invoice}/stripe', [InvoiceController::class, 'payStripe'])->name('invoices.pay-stripe');
+    Route::post('invoices/{invoice}/mercadopago', [InvoiceController::class, 'payMercadoPago'])->name('invoices.pay-mercadopago');
     Route::post('invoices/{invoice}/mark-paid', [InvoiceController::class, 'markAsPaid'])->name('invoices.mark-paid');
     Route::post('invoices/{invoice}/send-whatsapp', [InvoiceController::class, 'sendWhatsApp'])->name('invoices.send-whatsapp');
 

@@ -187,18 +187,24 @@
                             </span>
                             
                             <!-- Seletor de Abas -->
-                            <div class="flex items-center gap-2 bg-white/[0.05] p-1 rounded-xl border border-white/10">
+                            <div class="flex flex-wrap items-center gap-2 bg-white/[0.05] p-1.5 rounded-xl border border-white/10">
                                 <button type="button" 
                                         @click="activeTab = 'pix'"
-                                        :class="activeTab === 'pix' ? 'bg-emerald-500 text-slate-950 font-black shadow-sm' : 'text-slate-300 hover:text-white'"
-                                        class="px-3 py-1 rounded-lg text-xs font-bold transition">
-                                    PIX Instantâneo
+                                        :class="activeTab === 'pix' ? 'bg-emerald-500 text-slate-950 font-black shadow-lg shadow-emerald-500/20' : 'text-slate-300 hover:text-white'"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                                    <span>⚡</span> PIX Instantâneo
                                 </button>
                                 <button type="button" 
-                                        @click="activeTab = 'card'"
-                                        :class="activeTab === 'card' ? 'bg-emerald-500 text-slate-950 font-black shadow-sm' : 'text-slate-300 hover:text-white'"
-                                        class="px-3 py-1 rounded-lg text-xs font-bold transition">
-                                    Cartão Stripe
+                                        @click="activeTab = 'mercadopago'"
+                                        :class="activeTab === 'mercadopago' ? 'bg-sky-500 text-slate-950 font-black shadow-lg shadow-sky-500/20' : 'text-slate-300 hover:text-white'"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                                    <span>💳</span> Cartão Mercado Pago (Até 12x)
+                                </button>
+                                <button type="button" 
+                                        @click="activeTab = 'stripe'"
+                                        :class="activeTab === 'stripe' ? 'bg-[#635BFF] text-white font-black shadow-lg shadow-[#635BFF]/20' : 'text-slate-300 hover:text-white'"
+                                        class="px-3.5 py-1.5 rounded-lg text-xs font-bold transition flex items-center gap-1.5">
+                                    <span>🌐</span> Cartão Stripe
                                 </button>
                             </div>
                         </div>
@@ -207,20 +213,24 @@
                         <div x-show="activeTab === 'pix'" class="space-y-4">
                             <div class="flex flex-col sm:flex-row items-center gap-6">
                                 <!-- QR Code Box -->
-                                <div class="w-36 h-36 bg-white p-2.5 rounded-2xl border border-white/20 shadow-lg flex flex-col items-center justify-center text-center flex-shrink-0">
-                                    @if ($invoice->pix_qr_code_base64)
-                                        <img src="data:image/png;base64,{{ $invoice->pix_qr_code_base64 }}" alt="QR Code PIX" class="w-full h-full object-contain">
+                                <div class="w-40 h-40 bg-white p-2.5 rounded-2xl border border-white/20 shadow-2xl flex flex-col items-center justify-center text-center flex-shrink-0" style="background-color: #ffffff !important; min-width: 160px; min-height: 160px;">
+                                    @if (!empty($invoice->pix_qr_code_base64) && strlen($invoice->pix_qr_code_base64) > 50)
+                                        <img src="data:image/png;base64,{{ $invoice->pix_qr_code_base64 }}" alt="QR Code PIX" class="w-full h-full object-contain rounded-xl">
+                                    @elseif (!empty($invoice->pix_copy_paste))
+                                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data={{ urlencode($invoice->pix_copy_paste) }}" alt="QR Code PIX" class="w-full h-full object-contain rounded-xl">
                                     @else
-                                        <svg class="w-24 h-24 text-slate-900" viewBox="0 0 24 24" fill="currentColor">
-                                            <path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm8-2h2v2h-2v-2zm4 0h2v2h-2v-2zm-2 2h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 2h2v2h-2v-2zm2 2h2v2h-2v-2zm2-2h2v2h-2v-2zm0 2h2v2h-2v-2z"/>
-                                        </svg>
-                                        <span class="text-[9px] font-black text-slate-800 uppercase mt-0.5">PIX OFICIAL</span>
+                                        <div class="flex flex-col items-center justify-center p-2 text-slate-800" style="color: #0f172a !important;">
+                                            <svg class="w-16 h-16" viewBox="0 0 24 24" fill="#0f172a" style="fill: #0f172a !important;">
+                                                <path d="M2 2h8v8H2V2zm2 2v4h4V4H4zm10-2h8v8h-8V2zm2 2v4h4V4h-4zM2 14h8v8H2v-8zm2 2v4h4v-4H4zm8-2h2v2h-2v-2zm4 0h2v2h-2v-2zm-2 2h2v2h-2v-2zm4 0h2v2h-2v-2zm-4 2h2v2h-2v-2zm2 2h2v2h-2v-2zm2-2h2v2h-2v-2zm0 2h2v2h-2v-2z"/>
+                                            </svg>
+                                            <span class="text-[10px] font-black tracking-wider uppercase mt-1" style="color: #0f172a !important;">PIX Oficial</span>
+                                        </div>
                                     @endif
                                 </div>
 
                                 <div class="space-y-3 flex-1 w-full">
                                     <div>
-                                        <span class="font-bold text-xs text-emerald-400 block">Código PIX Copia e Cola</span>
+                                        <span class="font-bold text-xs text-emerald-400 block tracking-wide">Código PIX Copia e Cola</span>
                                         <span class="text-[11px] text-slate-400">Copie o código abaixo e cole no seu aplicativo bancário ou internet banking:</span>
                                     </div>
 
@@ -228,13 +238,15 @@
                                         <input type="text" 
                                                readonly 
                                                value="{{ $invoice->pix_copy_paste }}"
-                                               class="w-full px-3 py-2 rounded-xl bg-black/60 border border-white/15 text-white font-mono text-xs select-all outline-none">
+                                               style="background-color: #080d1a !important; color: #34d399 !important; border: 1px solid rgba(52, 211, 153, 0.3) !important; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;"
+                                               class="w-full px-4 py-2.5 rounded-xl font-mono text-xs select-all outline-none font-bold">
                                         
                                         <button type="button" 
                                                 @click="copyPix('{{ $invoice->pix_copy_paste }}')"
-                                                class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs uppercase tracking-wider flex-shrink-0 transition shadow-lg shadow-emerald-500/20">
+                                                style="background-color: #10b981 !important; color: #022c22 !important;"
+                                                class="px-5 py-2.5 rounded-xl font-black text-xs uppercase tracking-wider flex-shrink-0 transition shadow-lg shadow-emerald-500/20 hover:brightness-110 flex items-center gap-1.5">
                                             <span x-show="!copiedPix">Copiar</span>
-                                            <span x-show="copiedPix" style="display: none;">Copiado!</span>
+                                            <span x-show="copiedPix" style="display: none;">✓ Copiado!</span>
                                         </button>
                                     </div>
                                     <span class="text-[11px] text-emerald-400 font-medium block">
@@ -244,19 +256,45 @@
                             </div>
                         </div>
 
-                        <!-- Aba 2: Cartão de Crédito Stripe -->
-                        <div x-show="activeTab === 'card'" style="display: none;" class="space-y-4">
-                            <div class="p-4 rounded-xl bg-white/[0.04] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                                <div>
-                                    <span class="font-bold text-sm text-white block">Cartão de Crédito Internacional ou Nacional</span>
-                                    <span class="text-xs text-slate-400 mt-0.5 block">Processamento seguro criptografado com certificação PCI-DSS via Stripe.</span>
+                        <!-- Aba 2: Cartão Mercado Pago (Crédito em até 12x / Débito) -->
+                        <div x-show="activeTab === 'mercadopago'" style="display: none;" class="space-y-4">
+                            <div class="p-5 rounded-2xl bg-gradient-to-b from-sky-950/40 to-slate-900/60 border border-sky-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+                                <div class="space-y-1.5">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-bold text-sm text-white">Mercado Pago Checkout Pro</span>
+                                        <span class="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-bold border border-sky-500/30">Até 12x</span>
+                                    </div>
+                                    <p class="text-xs text-slate-300 leading-relaxed">
+                                        Pague parcelado com Cartão de Crédito (Visa, Mastercard, Elo, Hipercard) ou Cartão de Débito com aprovação instantânea.
+                                    </p>
+                                    <div class="flex items-center gap-2 text-[11px] text-slate-400 pt-1">
+                                        <span>💳 Visa</span> &bull; <span>💳 Master</span> &bull; <span>💳 Elo</span> &bull; <span>💳 Hipercard</span> &bull; <span>🔒 100% Protegido</span>
+                                    </div>
                                 </div>
 
-                                <form method="POST" action="{{ route('invoices.pay-stripe', $invoice) }}">
+                                <form method="POST" action="{{ route('invoices.pay-mercadopago', $invoice) }}" class="flex-shrink-0">
                                     @csrf
                                     <button type="submit" 
-                                            class="px-6 py-2.5 rounded-xl bg-[#635BFF] hover:bg-[#5249ea] text-white font-bold text-xs uppercase tracking-wider shadow-sm transition">
-                                        Pagar com Stripe &rarr;
+                                            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-sky-500/25 transition flex items-center justify-center gap-2">
+                                        <span>Pagar no Mercado Pago &rarr;</span>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Aba 3: Cartão de Crédito Stripe -->
+                        <div x-show="activeTab === 'stripe'" style="display: none;" class="space-y-4">
+                            <div class="p-5 rounded-2xl bg-white/[0.04] border border-white/10 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div class="space-y-1">
+                                    <span class="font-bold text-sm text-white block">Cartão de Crédito Internacional via Stripe</span>
+                                    <span class="text-xs text-slate-400 block">Processamento global com certificação PCI-DSS nível bancário via Stripe.</span>
+                                </div>
+
+                                <form method="POST" action="{{ route('invoices.pay-stripe', $invoice) }}" class="flex-shrink-0">
+                                    @csrf
+                                    <button type="submit" 
+                                            class="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#635BFF] hover:bg-[#5249ea] text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-[#635BFF]/25 transition flex items-center justify-center gap-2">
+                                        <span>Pagar com Stripe &rarr;</span>
                                     </button>
                                 </form>
                             </div>

@@ -51,7 +51,7 @@
             <div id="content-pix" class="space-y-6">
                 <!-- QR Code do PIX -->
                 <div class="space-y-3">
-                    <div class="inline-block p-4 rounded-2xl bg-white shadow-xl shadow-emerald-500/5 border border-slate-200">
+                    <div class="inline-block p-4 rounded-2xl bg-white shadow-xl shadow-emerald-500/5 border border-slate-200" style="background-color: #ffffff !important;">
                         @if(!empty($invoice->pix_qr_code_base64))
                             <img src="data:image/png;base64,{{ $invoice->pix_qr_code_base64 }}" 
                                  alt="QR Code PIX" 
@@ -61,7 +61,7 @@
                                  alt="QR Code PIX" 
                                  class="w-48 h-48 sm:w-56 sm:h-56 mx-auto object-contain">
                         @else
-                            <div class="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center bg-slate-100 text-slate-500 text-xs">
+                            <div class="w-48 h-48 sm:w-56 sm:h-56 flex items-center justify-center bg-slate-100 text-slate-800 text-xs font-bold" style="color: #1e293b !important;">
                                 Gerando QR Code...
                             </div>
                         @endif
@@ -80,9 +80,11 @@
                     <div class="flex items-center gap-2">
                         <input type="text" id="pix-code" readonly 
                                value="{{ $invoice->pix_copy_paste }}"
-                               class="w-full px-3.5 py-3 rounded-xl bg-slate-900 border border-slate-700 text-slate-300 font-mono text-xs focus:outline-none select-all truncate">
+                               style="background-color: #080d1a !important; color: #34d399 !important; border: 1px solid rgba(52, 211, 153, 0.3) !important; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;"
+                               class="w-full px-3.5 py-3 rounded-xl font-mono text-xs focus:outline-none select-all font-bold truncate">
                         <button type="button" onclick="copyPixCode()" id="btn-copy"
-                                class="px-4 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-black text-xs uppercase tracking-wider transition whitespace-nowrap flex items-center gap-1.5 shadow-lg shadow-emerald-500/20">
+                                style="background-color: #10b981 !important; color: #022c22 !important;"
+                                class="px-4 py-3 rounded-xl font-black text-xs uppercase tracking-wider transition whitespace-nowrap flex items-center gap-1.5 shadow-lg shadow-emerald-500/20 hover:brightness-110">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path>
                             </svg>
