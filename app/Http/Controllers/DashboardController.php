@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\HostingAccount;
 use App\Models\Invoice;
+use App\Models\Server;
 use App\Models\Ticket;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -13,22 +14,30 @@ use Illuminate\View\View;
 class DashboardController extends Controller
 {
     /**
-     * Exibe a Área do Cliente (Portal do Cliente) inspirada na ValueHost/WHMCS.
+     * Exibe a Área do Cliente (Portal do Cliente) oficial HostDevPro Cloud.
      */
     public function index(Request $request): View
     {
         $user = $request->user();
 
-        // Buscar cliente associado ao e-mail ou o cliente prioritário
+        // Buscar cliente associado ao e-mail ou o cliente do usuário
         $client = Client::where('email', $user->email)->first() 
-            ?? Client::where('email', 'alex@actualagency.com.br')->first()
+            ?? Client::where('email', 'onesitesidc@gmail.com')->first()
             ?? Client::first();
 
-        // Contadores gerais
+        // Contadores reais do sistema
         $servicesCount = HostingAccount::count();
+        $activeServicesCount = HostingAccount::where('status', HostingAccount::STATUS_ACTIVE)->count();
         $domainsCount = HostingAccount::distinct('domain')->count();
         $ticketsCount = Ticket::count();
         $invoicesCount = Invoice::count();
+
+        // Métricas financeiras e de infraestrutura reais
+        $totalPaidCents = (int) Invoice::where('status', Invoice::STATUS_PAID)->sum('amount_cents');
+        $totalUnpaidCents = (int) Invoice::where('status', Invoice::STATUS_UNPAID)->sum('amount_cents');
+        $servers = Server::all();
+        $serversCount = $servers->count();
+        $onlineServersCount = $servers->where('status', Server::STATUS_ONLINE)->count();
 
         // 1. Alerta Urgente: Fatura vencida ou pendente
         $overdueInvoice = Invoice::where('status', '!=', Invoice::STATUS_PAID)
@@ -58,21 +67,21 @@ class DashboardController extends Controller
         // Notificações ativas (contagem para o badge da barra superior)
         $notificationsCount = ($overdueInvoice ? 1 : 0) + ($pendingTicket ? 1 : 0);
 
-        // Notícias e comunicados da nuvem HostDevPro
+        // Notícias e comunicados operacionais HostDevPro
         $news = [
             [
-                'title' => 'COMUNICADO - Infraestrutura NVMe e Cluster de E-mails Plesk Ativo',
-                'date' => '04/09/2026',
+                'title' => 'Cluster Plesk NVMe Enterprise & Servidores DNS Oficiais Operacionais',
+                'date' => '05/09/2026',
                 'category' => 'Infraestrutura',
             ],
             [
-                'title' => 'INFORMATIVO - Nova Zona de Balanceamento OpenResty e Proteção Anti-DDoS',
-                'date' => '02/09/2026',
+                'title' => 'Proteção Anti-DDoS e Roteamento OpenResty HTTP/3 Ativado',
+                'date' => '04/09/2026',
                 'category' => 'Segurança',
             ],
             [
-                'title' => 'ATUALIZAÇÃO - Integração de Pagamento Instantâneo via PIX e Cartões',
-                'date' => '28/08/2026',
+                'title' => 'Checkout Automatizado com PIX Instantâneo e Cartão de Crédito',
+                'date' => '01/09/2026',
                 'category' => 'Faturamento',
             ],
         ];
@@ -81,9 +90,15 @@ class DashboardController extends Controller
             'user',
             'client',
             'servicesCount',
+            'activeServicesCount',
             'domainsCount',
             'ticketsCount',
             'invoicesCount',
+            'totalPaidCents',
+            'totalUnpaidCents',
+            'servers',
+            'serversCount',
+            'onlineServersCount',
             'overdueInvoice',
             'pendingTicket',
             'services',

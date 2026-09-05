@@ -39,15 +39,15 @@
 
     <!-- Conteúdo do Contrato -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 relative z-10">
-        <div class="bg-white rounded-3xl shadow-xl border border-[#B99470]/25 p-8 sm:p-12">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 sm:p-12">
             
             <!-- Cabeçalho do Documento -->
             <div class="border-b border-gray-200 pb-8 mb-8">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#5F6F52]/10 text-[#5F6F52] text-xs font-bold uppercase tracking-wider mb-3">
-                    <span class="w-2 h-2 rounded-full bg-[#5F6F52]"></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
                     Documento Oficial de Infraestrutura
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-[#783D19] tracking-tight">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
                     Contrato de Prestação de Serviços de Servidores VPS e Nuvem Dedicada
                 </h1>
                 <p class="text-sm text-gray-500 mt-3 leading-relaxed">
@@ -59,13 +59,13 @@
             </div>
 
             <!-- Alerta Crítico de Suporte Unmanaged -->
-            <div class="rounded-2xl bg-[#FEFAE0] border-l-4 border-[#C4661F] p-5 mb-8 shadow-sm">
+            <div class="rounded-2xl bg-amber-50/70 border-l-4 border-amber-500 p-5 mb-8 shadow-sm">
                 <div class="flex items-start gap-3">
-                    <div class="p-1.5 bg-[#C4661F]/10 rounded-lg text-[#C4661F]">
+                    <div class="p-1.5 bg-amber-500/10 rounded-lg text-amber-700">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-[#783D19]">Aviso Importante sobre Gestão de Acesso ROOT</h4>
+                        <h4 class="text-sm font-bold text-slate-900">Aviso Importante sobre Gestão de Acesso ROOT</h4>
                         <p class="text-xs text-gray-700 mt-1 leading-relaxed">
                             Os planos de Servidores Virtuais (VPS) são fornecidos no modelo <strong>Não Gerenciado (Unmanaged)</strong>. O suporte padrão da HostDevPro abrange exclusivamente a infraestrutura de hardware, conectividade de rede e disponibilidade do painel. Erros causados pelo cliente — como instalações indevidas, alterações críticas no ROOT do SSH, perda de credenciais ou falhas de pacotes de terceiros — estão sujeitos a tarifação avulsa para intervenção e reparo.
                         </p>
@@ -78,7 +78,7 @@
                 
                 <!-- Cláusula 1 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 1ª — Do Objeto
                     </h3>
                     <p class="mt-2">
@@ -88,7 +88,7 @@
 
                 <!-- Cláusula 2 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 2ª — Do Modelo de Serviço e Escopo de Suporte
                     </h3>
                     <p class="mt-2">
@@ -109,7 +109,7 @@
 
                 <!-- Cláusula 3 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 3ª — Da Política de Uso de Recursos e Boas Práticas (Fair Use)
                     </h3>
                     <p class="mt-2">
@@ -127,7 +127,7 @@
 
                 <!-- Cláusula 4 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 4ª — Dos Níveis de Serviço (SLA) e Disponibilidade
                     </h3>
                     <p class="mt-2">
@@ -137,7 +137,7 @@
 
                 <!-- Cláusula 5 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 5ª — Dos Backups e Salvaguarda de Dados
                     </h3>
                     <p class="mt-2">
@@ -147,7 +147,7 @@
 
                 <!-- Cláusula 6 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 6ª — Do Pagamento, Suspensão e Cancelamento
                     </h3>
                     <p class="mt-2">
@@ -157,7 +157,7 @@
 
                 <!-- Cláusula 7 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 7ª — Do Foro
                     </h3>
                     <p class="mt-2">
@@ -172,7 +172,7 @@
                     HostDevPro Tecnologia e Hospedagem Cloud • Documento registrado
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('terms.hosting') }}" class="text-xs text-[#C4661F] font-bold hover:underline">
+                    <a href="{{ route('terms.hosting') }}" class="text-xs text-amber-700 font-bold hover:underline">
                         Ver Contrato de Hospedagem &rarr;
                     </a>
                 </div>

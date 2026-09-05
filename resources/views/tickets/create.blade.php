@@ -2,15 +2,15 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div>
-                <h2 class="font-bold text-2xl text-[#783D19] leading-tight">
+                <h2 class="font-black text-2xl text-white tracking-tight leading-tight">
                     Abrir Novo Chamado de Suporte
                 </h2>
-                <p class="text-xs text-gray-500 mt-1">
-                    Inicie uma nova solicitação técnica, financeira ou de infraestrutura vinculada a um cliente.
+                <p class="text-xs text-slate-400 mt-1">
+                    Inicie uma nova solicitação técnica, financeira ou de migração de infraestrutura.
                 </p>
             </div>
             <a href="{{ route('tickets.index') }}" 
-               class="px-4 py-2 rounded-xl border border-gray-300 text-gray-700 font-semibold text-xs uppercase tracking-wider hover:bg-gray-50 transition">
+               class="px-4 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.14] border border-white/15 text-white font-bold text-xs uppercase tracking-wider transition">
                 &larr; Voltar para Chamados
             </a>
         </div>
@@ -18,7 +18,7 @@
 
     <div class="py-8">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="bg-white rounded-3xl p-8 border border-[#B99470]/25 shadow-xl">
+            <div class="bg-white/[0.06] backdrop-blur-2xl rounded-2xl p-6 sm:p-8 border border-white/15 shadow-2xl text-white">
                 <form method="POST" action="{{ route('tickets.store') }}">
                     @include('tickets._form')
                 </form>

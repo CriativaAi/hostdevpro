@@ -135,11 +135,11 @@ class Ticket extends Model
     public function getPriorityBadgeClassesAttribute(): string
     {
         return match ($this->priority) {
-            self::PRIORITY_LOW => 'bg-slate-100 text-slate-700 ring-slate-300',
-            self::PRIORITY_MEDIUM => 'bg-blue-50 text-blue-700 ring-blue-300',
-            self::PRIORITY_HIGH => 'bg-amber-50 text-amber-800 ring-amber-300',
-            self::PRIORITY_URGENT => 'bg-rose-50 text-rose-800 ring-rose-300 animate-pulse',
-            default => 'bg-gray-100 text-gray-700 ring-gray-300',
+            self::PRIORITY_LOW => 'bg-slate-500/10 text-slate-400 ring-slate-500/30',
+            self::PRIORITY_MEDIUM => 'bg-blue-500/10 text-blue-400 ring-blue-500/30',
+            self::PRIORITY_HIGH => 'bg-amber-500/10 text-amber-400 ring-amber-500/30',
+            self::PRIORITY_URGENT => 'bg-rose-500/10 text-rose-400 ring-rose-500/30 animate-pulse',
+            default => 'bg-slate-500/10 text-slate-400 ring-slate-500/30',
         };
     }
 
@@ -158,12 +158,12 @@ class Ticket extends Model
     public function getStatusBadgeClassesAttribute(): string
     {
         return match ($this->status) {
-            self::STATUS_OPEN => 'bg-emerald-50 text-emerald-800 ring-emerald-300',
-            self::STATUS_IN_PROGRESS => 'bg-[#FEFAE0] text-[#783D19] ring-[#B99470]',
-            self::STATUS_ANSWERED => 'bg-blue-50 text-blue-800 ring-blue-300',
-            self::STATUS_CUSTOMER_REPLY => 'bg-amber-50 text-amber-800 ring-amber-300',
-            self::STATUS_CLOSED => 'bg-slate-100 text-slate-600 ring-slate-200',
-            default => 'bg-gray-100 text-gray-700 ring-gray-300',
+            self::STATUS_OPEN => 'bg-emerald-500/10 text-emerald-400 ring-emerald-500/30',
+            self::STATUS_IN_PROGRESS => 'bg-amber-500/10 text-amber-400 ring-amber-500/30',
+            self::STATUS_ANSWERED => 'bg-blue-500/10 text-blue-400 ring-blue-500/30',
+            self::STATUS_CUSTOMER_REPLY => 'bg-purple-500/10 text-purple-400 ring-purple-500/30',
+            self::STATUS_CLOSED => 'bg-slate-500/10 text-slate-400 ring-slate-500/30',
+            default => 'bg-slate-500/10 text-slate-400 ring-slate-500/30',
         };
     }
 

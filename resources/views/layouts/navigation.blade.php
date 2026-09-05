@@ -125,14 +125,20 @@
 
             <!-- Topo Direito: Ícones, Webmail e Perfil -->
             <div class="hidden sm:flex sm:items-center gap-3">
-                <!-- Notificações 🔔 com badge -->
+                <!-- Notificações 🔔 com badge dinâmico -->
+                @php
+                    $navNotifCount = \App\Models\Invoice::where('status', \App\Models\Invoice::STATUS_UNPAID)->count() 
+                        + \App\Models\Ticket::where('status', \App\Models\Ticket::STATUS_ANSWERED)->count();
+                @endphp
                 <a href="{{ route('invoices.index', ['status' => 'unpaid']) }}" 
                    class="relative p-2 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition" 
                    title="Notificações & Faturas Pendentes">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                    <span class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-extrabold flex items-center justify-center">
-                        2
-                    </span>
+                    @if ($navNotifCount > 0)
+                        <span class="absolute top-1.5 right-1.5 w-4 h-4 rounded-full bg-rose-600 text-white text-[9px] font-extrabold flex items-center justify-center">
+                            {{ $navNotifCount }}
+                        </span>
+                    @endif
                 </a>
 
                 <!-- Webmail -->

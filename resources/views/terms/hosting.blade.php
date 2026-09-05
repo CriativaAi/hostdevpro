@@ -39,15 +39,15 @@
 
     <!-- Conteúdo do Contrato -->
     <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 relative z-10">
-        <div class="bg-white rounded-3xl shadow-xl border border-[#B99470]/25 p-8 sm:p-12">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 sm:p-12">
             
             <!-- Cabeçalho do Documento -->
             <div class="border-b border-gray-200 pb-8 mb-8">
-                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#A9B388]/20 text-[#5F6F52] text-xs font-bold uppercase tracking-wider mb-3">
-                    <span class="w-2 h-2 rounded-full bg-[#5F6F52]"></span>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-700 text-xs font-bold uppercase tracking-wider mb-3">
+                    <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
                     Documento Oficial de Serviços Web
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-[#783D19] tracking-tight">
+                <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
                     Contrato de Prestação de Serviços de Hospedagem de Sites e Aplicações
                 </h1>
                 <p class="text-sm text-gray-500 mt-3 leading-relaxed">
@@ -59,13 +59,13 @@
             </div>
 
             <!-- Destaque: Ambiente Gerenciado -->
-            <div class="rounded-2xl bg-[#FEFAE0] border-l-4 border-[#5F6F52] p-5 mb-8 shadow-sm">
+            <div class="rounded-2xl bg-amber-50/70 border-l-4 border-emerald-600 p-5 mb-8 shadow-sm">
                 <div class="flex items-start gap-3">
-                    <div class="p-1.5 bg-[#5F6F52]/10 rounded-lg text-[#5F6F52]">
+                    <div class="p-1.5 bg-emerald-500/10 rounded-lg text-emerald-700">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                     </div>
                     <div>
-                        <h4 class="text-sm font-bold text-[#783D19]">Ambiente Gerenciado de Alto Desempenho</h4>
+                        <h4 class="text-sm font-bold text-slate-900">Ambiente Gerenciado de Alto Desempenho</h4>
                         <p class="text-xs text-gray-700 mt-1 leading-relaxed">
                             O serviço de hospedagem HostDevPro inclui servidores web otimizados (OpenResty/Nginx), suporte às versões mais recentes do PHP e Node.js, certificados SSL gratuitos e automatizados Let's Encrypt e proteção ativa contra ataques cibernéticos.
                         </p>
@@ -78,7 +78,7 @@
                 
                 <!-- Cláusula 1 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 1ª — Do Objeto
                     </h3>
                     <p class="mt-2">
@@ -88,7 +88,7 @@
 
                 <!-- Cláusula 2 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 2ª — Da Política Anti-Spam e Boas Práticas de E-mail
                     </h3>
                     <p class="mt-2">
@@ -101,7 +101,7 @@
 
                 <!-- Cláusula 3 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 3ª — Do Uso de Recursos (CPU, Memória e Inodes)
                     </h3>
                     <p class="mt-2">
@@ -114,7 +114,7 @@
 
                 <!-- Cláusula 4 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 4ª — Dos Backups e Rotinas de Segurança
                     </h3>
                     <p class="mt-2">
@@ -124,7 +124,7 @@
 
                 <!-- Cláusula 5 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 5ª — Do Suporte Técnico e Atendimento
                     </h3>
                     <p class="mt-2">
@@ -134,7 +134,7 @@
 
                 <!-- Cláusula 6 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 6ª — Do Pagamento, Renovação e Suspensão
                     </h3>
                     <p class="mt-2">
@@ -144,7 +144,7 @@
 
                 <!-- Cláusula 7 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 7ª — Da Conformidade LGPD
                     </h3>
                     <p class="mt-2">
@@ -154,7 +154,7 @@
 
                 <!-- Cláusula 8 -->
                 <section>
-                    <h3 class="text-lg font-bold text-[#783D19] border-b border-gray-100 pb-2">
+                    <h3 class="text-lg font-bold text-slate-900 border-b border-gray-100 pb-2">
                         Cláusula 8ª — Do Foro
                     </h3>
                     <p class="mt-2">
@@ -169,7 +169,7 @@
                     HostDevPro Tecnologia e Hospedagem Cloud • Documento registrado
                 </div>
                 <div class="flex items-center gap-3">
-                    <a href="{{ route('terms.vps') }}" class="text-xs text-[#C4661F] font-bold hover:underline">
+                    <a href="{{ route('terms.vps') }}" class="text-xs text-amber-700 font-bold hover:underline">
                         Ver Contrato de VPS &rarr;
                     </a>
                 </div>

@@ -83,6 +83,8 @@ class TicketController extends Controller
         $hostingAccountId = $request->integer('hosting_account_id') ?: null;
         $serverId = $request->integer('server_id') ?: null;
         $projectId = $request->integer('project_id') ?: null;
+        $subject = $request->string('subject')->trim()->value();
+        $department = $request->string('department')->trim()->value();
 
         $clients = Client::with(['hostingAccounts', 'projects'])->orderBy('name')->get();
         $servers = Server::orderBy('name')->get();
@@ -92,7 +94,8 @@ class TicketController extends Controller
             'hosting_account_id' => $hostingAccountId,
             'server_id' => $serverId,
             'project_id' => $projectId,
-            'department' => Ticket::DEPARTMENT_TECHNICAL,
+            'subject' => $subject ?: null,
+            'department' => in_array($department, [Ticket::DEPARTMENT_TECHNICAL, Ticket::DEPARTMENT_FINANCIAL, Ticket::DEPARTMENT_COMMERCIAL, Ticket::DEPARTMENT_DEVOPS], true) ? $department : Ticket::DEPARTMENT_TECHNICAL,
             'priority' => Ticket::PRIORITY_MEDIUM,
             'status' => Ticket::STATUS_OPEN,
         ]);

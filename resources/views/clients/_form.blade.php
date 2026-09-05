@@ -2,14 +2,22 @@
     <!-- Grid Nome e Empresa -->
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
-            <x-input-label for="name" :value="__('Nome do Cliente / Responsável *')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $client->name ?? '')" required autofocus placeholder="Ex: João Silva ou Tech Solutions Ltda" />
+            <label for="name" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Nome do Cliente / Responsável *
+            </label>
+            <input id="name" name="name" type="text" 
+                   class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm transition outline-none shadow-inner" 
+                   value="{{ old('name', $client->name ?? '') }}" required autofocus placeholder="Ex: João Silva ou Tech Solutions Ltda" />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
         <div>
-            <x-input-label for="company" :value="__('Empresa / Nome Fantasia')" />
-            <x-text-input id="company" name="company" type="text" class="mt-1 block w-full" :value="old('company', $client->company ?? '')" placeholder="Ex: Acme Corporation" />
+            <label for="company" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Empresa / Nome Fantasia
+            </label>
+            <input id="company" name="company" type="text" 
+                   class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm transition outline-none shadow-inner" 
+                   value="{{ old('company', $client->company ?? '') }}" placeholder="Ex: Acme Corporation" />
             <x-input-error class="mt-2" :messages="$errors->get('company')" />
         </div>
     </div>
@@ -17,60 +25,70 @@
     <!-- Grid E-mail e Telefone -->
     <div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
         <div>
-            <x-input-label for="email" :value="__('E-mail Comercial *')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $client->email ?? '')" required placeholder="cliente@empresa.com.br" />
+            <label for="email" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                E-mail Comercial *
+            </label>
+            <input id="email" name="email" type="email" 
+                   class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm transition outline-none shadow-inner font-mono" 
+                   value="{{ old('email', $client->email ?? '') }}" required placeholder="cliente@empresa.com.br" />
             <x-input-error class="mt-2" :messages="$errors->get('email')" />
         </div>
 
         <div>
-            <x-input-label for="phone" :value="__('Telefone / WhatsApp')" />
-            <x-text-input id="phone" name="phone" type="text" class="mt-1 block w-full" :value="old('phone', $client->phone ?? '')" placeholder="(11) 98765-4321" />
+            <label for="phone" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+                Telefone / WhatsApp
+            </label>
+            <input id="phone" name="phone" type="text" 
+                   class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm transition outline-none shadow-inner" 
+                   value="{{ old('phone', $client->phone ?? '') }}" placeholder="(11) 98765-4321" />
             <x-input-error class="mt-2" :messages="$errors->get('phone')" />
         </div>
     </div>
 
     <!-- Status -->
     <div>
-        <x-input-label :value="__('Status da Conta *')" class="mb-2" />
+        <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+            Status da Conta *
+        </label>
         <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
             @php
                 $selectedStatus = old('status', $client->status ?? 'active');
             @endphp
-            <label class="relative flex items-center justify-between p-3.5 border rounded-xl cursor-pointer hover:bg-slate-50 transition {{ $selectedStatus === 'active' ? 'border-emerald-500 bg-emerald-50/40 ring-1 ring-emerald-500' : 'border-gray-200' }}">
+            <label class="relative flex items-center justify-between p-3.5 border rounded-xl cursor-pointer transition {{ $selectedStatus === 'active' ? 'border-emerald-500 bg-emerald-500/10 ring-1 ring-emerald-500/50' : 'border-white/15 bg-slate-900/60 hover:bg-white/[0.04]' }}">
                 <div class="flex items-center gap-2.5">
-                    <input type="radio" name="status" value="active" {{ $selectedStatus === 'active' ? 'checked' : '' }} class="text-emerald-600 focus:ring-emerald-500">
+                    <input type="radio" name="status" value="active" {{ $selectedStatus === 'active' ? 'checked' : '' }} class="rounded-full border-white/20 bg-slate-900 text-emerald-500 focus:ring-emerald-400">
                     <div>
-                        <span class="block text-sm font-semibold text-gray-900">Ativo</span>
-                        <span class="block text-xs text-gray-500">Acesso liberado e ativo</span>
+                        <span class="block text-sm font-bold text-white">Ativo</span>
+                        <span class="block text-xs text-slate-400">Acesso liberado e ativo</span>
                     </div>
                 </div>
-                <span class="inline-flex items-center rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-800">
+                <span class="inline-flex items-center rounded-full bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
                     Ativo
                 </span>
             </label>
 
-            <label class="relative flex items-center justify-between p-3.5 border rounded-xl cursor-pointer hover:bg-slate-50 transition {{ $selectedStatus === 'pending' ? 'border-amber-500 bg-amber-50/40 ring-1 ring-amber-500' : 'border-gray-200' }}">
+            <label class="relative flex items-center justify-between p-3.5 border rounded-xl cursor-pointer transition {{ $selectedStatus === 'pending' ? 'border-amber-500 bg-amber-500/10 ring-1 ring-amber-500/50' : 'border-white/15 bg-slate-900/60 hover:bg-white/[0.04]' }}">
                 <div class="flex items-center gap-2.5">
-                    <input type="radio" name="status" value="pending" {{ $selectedStatus === 'pending' ? 'checked' : '' }} class="text-amber-600 focus:ring-amber-500">
+                    <input type="radio" name="status" value="pending" {{ $selectedStatus === 'pending' ? 'checked' : '' }} class="rounded-full border-white/20 bg-slate-900 text-amber-500 focus:ring-amber-400">
                     <div>
-                        <span class="block text-sm font-semibold text-gray-900">Pendente</span>
-                        <span class="block text-xs text-gray-500">Aguardando onboarding</span>
+                        <span class="block text-sm font-bold text-white">Pendente</span>
+                        <span class="block text-xs text-slate-400">Aguardando onboarding</span>
                     </div>
                 </div>
-                <span class="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                <span class="inline-flex items-center rounded-full bg-amber-500/20 px-2 py-0.5 text-xs font-bold text-amber-400 border border-amber-500/30">
                     Pendente
                 </span>
             </label>
 
-            <label class="relative flex items-center justify-between p-3.5 border rounded-xl cursor-pointer hover:bg-slate-50 transition {{ $selectedStatus === 'inactive' ? 'border-gray-400 bg-gray-50 ring-1 ring-gray-400' : 'border-gray-200' }}">
+            <label class="relative flex items-center justify-between p-3.5 border rounded-xl cursor-pointer transition {{ $selectedStatus === 'inactive' ? 'border-slate-500 bg-slate-500/10 ring-1 ring-slate-500/50' : 'border-white/15 bg-slate-900/60 hover:bg-white/[0.04]' }}">
                 <div class="flex items-center gap-2.5">
-                    <input type="radio" name="status" value="inactive" {{ $selectedStatus === 'inactive' ? 'checked' : '' }} class="text-gray-600 focus:ring-gray-500">
+                    <input type="radio" name="status" value="inactive" {{ $selectedStatus === 'inactive' ? 'checked' : '' }} class="rounded-full border-white/20 bg-slate-900 text-slate-500 focus:ring-slate-400">
                     <div>
-                        <span class="block text-sm font-semibold text-gray-900">Inativo</span>
-                        <span class="block text-xs text-gray-500">Acesso suspenso</span>
+                        <span class="block text-sm font-bold text-white">Inativo</span>
+                        <span class="block text-xs text-slate-400">Acesso suspenso</span>
                     </div>
                 </div>
-                <span class="inline-flex items-center rounded-full bg-gray-200 px-2 py-0.5 text-xs font-medium text-gray-800">
+                <span class="inline-flex items-center rounded-full bg-slate-500/20 px-2 py-0.5 text-xs font-bold text-slate-400 border border-slate-500/30">
                     Inativo
                 </span>
             </label>
@@ -80,8 +98,12 @@
 
     <!-- Observações -->
     <div>
-        <x-input-label for="notes" :value="__('Observações e Detalhes')" />
-        <textarea id="notes" name="notes" rows="4" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 text-sm" placeholder="Adicione observações internas sobre este cliente, preferências técnicas, etc.">{{ old('notes', $client->notes ?? '') }}</textarea>
+        <label for="notes" class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">
+            Observações e Detalhes
+        </label>
+        <textarea id="notes" name="notes" rows="4" 
+                  class="w-full px-4 py-2.5 rounded-xl bg-slate-900/80 border border-white/15 text-white placeholder-slate-500 focus:border-emerald-500 focus:ring-2 focus:ring-emerald-500/20 text-sm transition outline-none shadow-inner" 
+                  placeholder="Adicione observações internas sobre este cliente, preferências técnicas, etc.">{{ old('notes', $client->notes ?? '') }}</textarea>
         <x-input-error class="mt-2" :messages="$errors->get('notes')" />
     </div>
 </div>
