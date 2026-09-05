@@ -1,60 +1,80 @@
 <x-guest-layout>
-    <div class="grid grid-cols-1 md:grid-cols-12 min-h-[640px]">
+    <div class="max-w-4xl w-full bg-white/95 backdrop-blur-xl rounded-3xl shadow-2xl shadow-slate-300/70 overflow-hidden border border-slate-200/90 grid grid-cols-1 md:grid-cols-12 my-6">
+        
         <!-- Painel Esquerdo: Brand & Boas-Vindas Institucional -->
-        <div class="md:col-span-5 bg-gradient-to-br from-[#783D19] via-[#5F6F52] to-[#020617] p-8 md:p-10 flex flex-col justify-between relative overflow-hidden text-white">
-            <!-- Glows e Detalhes Decorativos -->
-            <div class="absolute -right-16 -top-16 w-56 h-56 rounded-full bg-white/5 blur-2xl pointer-events-none"></div>
-            <div class="absolute -left-16 -bottom-16 w-56 h-56 rounded-full bg-[#C4661F]/20 blur-3xl pointer-events-none"></div>
+        <div class="md:col-span-5 bg-gradient-to-b from-slate-50 via-white to-orange-50/40 p-8 md:p-10 flex flex-col justify-between border-b md:border-b-0 md:border-r border-slate-200/80 relative overflow-hidden">
+            <!-- Glows Sutis de Fundo -->
+            <div class="absolute -top-12 -left-12 w-48 h-48 bg-orange-500/10 rounded-full blur-2xl pointer-events-none"></div>
+            <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
 
-            <!-- Topo: Logo Oficial Branco para Fundos Escuros -->
-            <div class="relative z-10">
-                <a href="/" class="inline-block transition-transform hover:scale-105 duration-200">
-                    <img src="{{ asset('brand/logos/dark/HostDevPro-horizontal-white.webp') }}" 
-                         alt="HostDevPro" 
-                         class="h-9 md:h-10 w-auto drop-shadow-md">
+            <!-- Topo: Logotipo Oficial para Fundo Claro em Destaque GRANDE com Animação PULSAR -->
+            <div class="relative z-10 pt-2 pb-6">
+                <a href="https://hostdevpro.app.br" class="inline-block">
+                    <img src="{{ asset('brand/logos/light/HostDevPro-horizontal-gradient.webp') }}" 
+                         alt="HostDevPro Cloud" 
+                         class="h-14 sm:h-16 w-auto object-contain animate-logo-pulsar">
                 </a>
             </div>
 
             <!-- Centro: Mensagem de Boas-Vindas -->
-            <div class="my-8 md:my-auto relative z-10">
-                <span class="inline-block px-3 py-1 rounded-full bg-white/10 text-white/90 text-xs font-semibold tracking-wider uppercase mb-4 border border-white/15">
-                    Infraestrutura Cloud & DevOps
+            <div class="my-6 md:my-auto relative z-10 space-y-4">
+                <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-orange-100 text-orange-800 text-xs font-bold font-mono uppercase tracking-wider border border-orange-200 shadow-sm">
+                    <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
+                    Ativação Imediata &bull; SSL Incluso
                 </span>
-                <h2 class="text-2xl md:text-3xl font-bold tracking-tight text-white">
+                
+                <h2 class="text-2xl sm:text-3xl font-display font-black text-slate-900 tracking-tight leading-tight">
                     Crie sua conta
                 </h2>
-                <p class="text-white/80 text-sm mt-3 leading-relaxed">
-                    Comece a hospedar suas aplicações, gerenciar servidores VPS e usufruir de segurança corporativa com suporte especializado.
+                
+                <p class="text-slate-600 text-xs sm:text-sm leading-relaxed">
+                    Comece a hospedar suas aplicações, gerenciar servidores dedicados e usufruir da ultra-performance dos discos NVMe Gen5 no Brasil.
                 </p>
 
-                <div class="mt-8">
+                <!-- Destaques -->
+                <div class="space-y-2 pt-2 text-xs font-medium text-slate-700">
+                    <div class="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200/80 shadow-sm">
+                        <span class="text-base">🚀</span>
+                        <span>Setup Instantâneo de Instâncias</span>
+                    </div>
+                    <div class="flex items-center gap-2 p-2 rounded-xl bg-white border border-slate-200/80 shadow-sm">
+                        <span class="text-base">🛡️</span>
+                        <span>Proteção Anti-DDoS 2.4 Tbps</span>
+                    </div>
+                </div>
+
+                <!-- Botão Já Tenho Conta -->
+                <div class="pt-4">
                     <a href="{{ route('login') }}" 
-                       class="inline-flex items-center justify-center w-full sm:w-auto px-6 py-2.5 rounded-xl border-2 border-white text-white font-bold text-xs tracking-wider uppercase hover:bg-white hover:text-[#5F6F52] transition-all duration-200 shadow-sm">
-                        JÁ TENHO CONTA (ENTRAR)
+                       class="inline-flex items-center justify-center w-full px-6 py-3.5 rounded-xl border-2 border-slate-950 text-slate-950 hover:bg-slate-950 hover:text-white font-black text-xs tracking-wider uppercase transition-all duration-200 shadow-sm">
+                        JÁ TENHO CONTA (ENTRAR) &rarr;
                     </a>
                 </div>
             </div>
 
             <!-- Rodapé do Painel Esquerdo -->
-            <div class="relative z-10 pt-4 border-t border-white/10 flex items-center gap-2 text-xs text-white/70">
-                <span class="w-2 h-2 rounded-full bg-[#A9B388] animate-pulse"></span>
-                <span>Ativação Instantânea • SSL Incluso</span>
+            <div class="relative z-10 pt-4 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-500 font-mono">
+                <span class="flex items-center gap-1.5 text-emerald-700 font-semibold">
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                    Setup Automático
+                </span>
+                <span>Criptografia 256-bit</span>
             </div>
         </div>
 
         <!-- Painel Direito: Formulário de Cadastro -->
-        <div class="md:col-span-7 p-8 md:p-12 flex flex-col justify-between bg-white">
+        <div class="md:col-span-7 p-8 md:p-12 flex flex-col justify-between bg-white relative">
             <div>
-                <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-slate-100">
                     <div>
-                        <h1 class="text-2xl md:text-3xl font-extrabold text-[#783D19] tracking-tight">
+                        <h1 class="text-2xl md:text-3xl font-display font-black text-slate-900 tracking-tight">
                             Primeiro Acesso
                         </h1>
-                        <p class="text-xs md:text-sm text-[#5F6F52] font-medium mt-1">
-                            Preencha seus dados para criar seu acesso
+                        <p class="text-xs md:text-sm text-slate-500 font-medium mt-1">
+                            Preencha seus dados para criar seu acesso imediato.
                         </p>
                     </div>
-                    <img src="{{ asset('brand/icons/HDP-icon-64.webp') }}" alt="HDP" class="h-10 w-10 opacity-90 hidden sm:block">
+                    <img src="{{ asset('brand/icons/HDP-icon-64.png') }}" alt="HDP" class="h-10 w-10 object-contain drop-shadow-sm hidden sm:block">
                 </div>
 
                 <form method="POST" action="{{ route('register') }}" class="space-y-4">
@@ -62,7 +82,7 @@
 
                     <!-- Name -->
                     <div>
-                        <label for="name" class="block text-xs font-bold text-[#5F6F52] uppercase tracking-wider mb-1.5">
+                        <label for="name" class="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1.5">
                             Nome Completo
                         </label>
                         <input id="name" 
@@ -73,13 +93,13 @@
                                autofocus 
                                autocomplete="name" 
                                placeholder="Seu nome ou Razão Social"
-                               class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#C4661F] focus:ring-2 focus:ring-[#C4661F]/20 text-sm transition outline-none shadow-sm @error('name') border-red-500 @enderror">
-                        <x-input-error :messages="$errors->get('name')" class="mt-1" />
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 bg-slate-50/50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 text-sm font-medium transition outline-none shadow-sm @error('name') border-rose-500 @enderror">
+                        <x-input-error :messages="$errors->get('name')" class="mt-1 text-rose-600 text-xs font-semibold" />
                     </div>
 
                     <!-- Email Address -->
                     <div>
-                        <label for="email" class="block text-xs font-bold text-[#5F6F52] uppercase tracking-wider mb-1.5">
+                        <label for="email" class="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1.5">
                             E-mail Corporativo
                         </label>
                         <input id="email" 
@@ -89,13 +109,13 @@
                                required 
                                autocomplete="username" 
                                placeholder="seunome@empresa.com.br"
-                               class="w-full px-4 py-2.5 rounded-xl border border-gray-200 text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#C4661F] focus:ring-2 focus:ring-[#C4661F]/20 text-sm transition outline-none shadow-sm @error('email') border-red-500 @enderror">
-                        <x-input-error :messages="$errors->get('email')" class="mt-1" />
+                               class="w-full px-4 py-2.5 rounded-xl border border-slate-300 text-slate-900 bg-slate-50/50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 text-sm font-medium transition outline-none shadow-sm @error('email') border-rose-500 @enderror">
+                        <x-input-error :messages="$errors->get('email')" class="mt-1 text-rose-600 text-xs font-semibold" />
                     </div>
 
-                    <!-- Password with Eye Toggle ("Olhinho") -->
+                    <!-- Password with Eye Toggle -->
                     <div x-data="{ showPass: false }">
-                        <label for="password" class="block text-xs font-bold text-[#5F6F52] uppercase tracking-wider mb-1.5">
+                        <label for="password" class="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1.5">
                             Senha de Acesso
                         </label>
                         <div class="relative">
@@ -105,10 +125,10 @@
                                    required 
                                    autocomplete="new-password" 
                                    placeholder="Mínimo de 8 caracteres"
-                                   class="w-full px-4 py-2.5 pe-11 rounded-xl border border-gray-200 text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#C4661F] focus:ring-2 focus:ring-[#C4661F]/20 text-sm transition outline-none shadow-sm @error('password') border-red-500 @enderror">
+                                   class="w-full px-4 py-2.5 pe-11 rounded-xl border border-slate-300 text-slate-900 bg-slate-50/50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 text-sm font-medium transition outline-none shadow-sm @error('password') border-rose-500 @enderror">
                             <button type="button" 
                                     @click="showPass = !showPass" 
-                                    class="absolute inset-y-0 right-0 pe-3.5 flex items-center text-gray-400 hover:text-[#C4661F] transition focus:outline-none"
+                                    class="absolute inset-y-0 right-0 pe-3.5 flex items-center text-slate-400 hover:text-slate-800 transition focus:outline-none"
                                     :title="showPass ? 'Ocultar senha' : 'Ver senha'">
                                 <svg x-show="!showPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -119,12 +139,12 @@
                                 </svg>
                             </button>
                         </div>
-                        <x-input-error :messages="$errors->get('password')" class="mt-1" />
+                        <x-input-error :messages="$errors->get('password')" class="mt-1 text-rose-600 text-xs font-semibold" />
                     </div>
 
-                    <!-- Confirm Password with Eye Toggle ("Olhinho") -->
+                    <!-- Confirm Password with Eye Toggle -->
                     <div x-data="{ showConfirmPass: false }">
-                        <label for="password_confirmation" class="block text-xs font-bold text-[#5F6F52] uppercase tracking-wider mb-1.5">
+                        <label for="password_confirmation" class="block text-xs font-bold text-slate-800 uppercase tracking-wider mb-1.5">
                             Confirmar Senha
                         </label>
                         <div class="relative">
@@ -134,10 +154,10 @@
                                    required 
                                    autocomplete="new-password" 
                                    placeholder="Repita sua senha"
-                                   class="w-full px-4 py-2.5 pe-11 rounded-xl border border-gray-200 text-gray-900 bg-gray-50/50 focus:bg-white focus:border-[#C4661F] focus:ring-2 focus:ring-[#C4661F]/20 text-sm transition outline-none shadow-sm @error('password_confirmation') border-red-500 @enderror">
+                                   class="w-full px-4 py-2.5 pe-11 rounded-xl border border-slate-300 text-slate-900 bg-slate-50/50 focus:bg-white focus:border-orange-500 focus:ring-4 focus:ring-orange-500/10 text-sm font-medium transition outline-none shadow-sm @error('password_confirmation') border-rose-500 @enderror">
                             <button type="button" 
                                     @click="showConfirmPass = !showConfirmPass" 
-                                    class="absolute inset-y-0 right-0 pe-3.5 flex items-center text-gray-400 hover:text-[#C4661F] transition focus:outline-none"
+                                    class="absolute inset-y-0 right-0 pe-3.5 flex items-center text-slate-400 hover:text-slate-800 transition focus:outline-none"
                                     :title="showConfirmPass ? 'Ocultar senha' : 'Ver senha'">
                                 <svg x-show="!showConfirmPass" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
@@ -148,21 +168,21 @@
                                 </svg>
                             </button>
                         </div>
-                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1" />
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-1 text-rose-600 text-xs font-semibold" />
                     </div>
 
                     <!-- Termos de Aceite -->
                     <div class="pt-2">
-                        <label class="flex items-start cursor-pointer text-xs text-gray-600 leading-relaxed">
+                        <label class="flex items-start cursor-pointer text-xs text-slate-700 leading-relaxed">
                             <input type="checkbox" 
                                    name="terms" 
                                    required 
-                                   class="mt-0.5 rounded border-gray-300 text-[#5F6F52] shadow-sm focus:ring-[#C4661F]">
+                                   class="mt-0.5 rounded border-slate-300 text-orange-500 shadow-sm focus:ring-orange-500">
                             <span class="ms-2">
                                 Li e concordo com o 
-                                <a href="{{ route('terms.hosting') }}" target="_blank" class="text-[#C4661F] font-bold hover:underline">Contrato de Hospedagem</a> 
+                                <a href="{{ route('terms.hosting') }}" target="_blank" class="text-orange-600 font-bold hover:underline">Contrato de Hospedagem</a> 
                                 e com o 
-                                <a href="{{ route('terms.vps') }}" target="_blank" class="text-[#C4661F] font-bold hover:underline">Contrato de VPS</a>.
+                                <a href="{{ route('terms.vps') }}" target="_blank" class="text-orange-600 font-bold hover:underline">Contrato de VPS</a>.
                             </span>
                         </label>
                     </div>
@@ -170,9 +190,9 @@
                     <!-- Submit Button -->
                     <div class="pt-2">
                         <button type="submit" 
-                                class="w-full py-3.5 px-6 rounded-xl bg-[#5F6F52] hover:bg-[#48563e] text-white font-bold text-xs md:text-sm tracking-wider uppercase shadow-md hover:shadow-lg transition-all duration-200 flex items-center justify-center gap-2 group">
+                                class="w-full py-4 px-6 rounded-xl bg-slate-950 hover:bg-emerald-600 text-white font-black text-xs md:text-sm tracking-wider uppercase shadow-xl shadow-slate-950/20 hover:shadow-emerald-600/30 transition-all duration-200 flex items-center justify-center gap-2 group hover:scale-[1.01] active:scale-[0.99]">
                             <span>FINALIZAR CADASTRO</span>
-                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform text-orange-400 group-hover:text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
                             </svg>
                         </button>
@@ -181,9 +201,9 @@
             </div>
 
             <!-- Rodapé -->
-            <div class="pt-6 mt-4 border-t border-gray-100 text-center">
-                <p class="text-[11px] text-gray-400">
-                    HostDevPro &copy; {{ date('Y') }} • Gestão Avançada de Servidores & Aplicações
+            <div class="pt-6 mt-4 border-t border-slate-100 text-center">
+                <p class="text-[11px] text-slate-400">
+                    HostDevPro Cloud &copy; {{ date('Y') }} &bull; Gestão Avançada de Servidores & Aplicações
                 </p>
             </div>
         </div>

@@ -18,6 +18,92 @@ class MercadoPagoService
     }
 
     /**
+     * Cria uma Preferência do Mercado Pago Checkout Pro
+     * (Permite Cartão de Crédito em até 12x, Cartão de Débito, PIX e Boleto).
+     */
+    public function createPreference(Invoice $invoice): array
+    {
+        $amount = round($invoice->amount_cents / 100, 2);
+        $client = $invoice->client;
+
+        if (!$this->accessToken) {
+            return [
+                'success' => false,
+                'init_point' => null,
+            ];
+        }
+
+        try {
+            $cleanDomain = 'Hospedagem HostDevPro';
+            if (preg_match('/Domínio:\s*([a-zA-Z0-9\.\-]+)/i', $invoice->notes ?? '', $m)) {
+                $cleanDomain = trim($m[1]);
+            }
+
+            $successUrl = route('checkout.confirm', $invoice);
+            $pendingUrl = route('checkout.payment', $invoice);
+            $failureUrl = route('checkout.payment', $invoice);
+
+            $payload = [
+                'items' => [
+                    [
+                        'id' => (string) $invoice->id,
+                        'title' => "Fatura {$invoice->invoice_number} - Hospedagem {$cleanDomain}",
+                        'description' => "Assinatura de Hospedagem Cloud NVMe - HostDevPro",
+                        'quantity' => 1,
+                        'currency_id' => 'BRL',
+                        'unit_price' => (float) $amount,
+                    ],
+                ],
+                'payer' => [
+                    'name' => $client->name ?? 'Cliente',
+                    'email' => $client->email ?? 'cliente@hostdevpro.app.br',
+                ],
+                'back_urls' => [
+                    'success' => $successUrl,
+                    'pending' => $pendingUrl,
+                    'failure' => $failureUrl,
+                ],
+                'auto_return' => 'approved',
+                'external_reference' => (string) $invoice->id,
+                'statement_descriptor' => 'HOSTDEVPRO',
+            ];
+
+            $response = Http::withToken($this->accessToken)
+                ->withHeaders([
+                    'X-Idempotency-Key' => (string) \Illuminate\Support\Str::uuid(),
+                ])
+                ->timeout(15)
+                ->post('https://api.mercadopago.com/checkout/preferences', $payload);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $initPoint = $data['init_point'] ?? null;
+                $preferenceId = $data['id'] ?? null;
+
+                $invoice->update([
+                    'payment_gateway' => Invoice::GATEWAY_MERCADOPAGO,
+                    'gateway_transaction_id' => (string) $preferenceId,
+                ]);
+
+                return [
+                    'success' => true,
+                    'init_point' => $initPoint,
+                    'preference_id' => $preferenceId,
+                ];
+            }
+
+            Log::warning('Mercado Pago Preference API response error: ' . $response->body());
+        } catch (\Exception $e) {
+            Log::error('Mercado Pago Preference exception: ' . $e->getMessage());
+        }
+
+        return [
+            'success' => false,
+            'init_point' => null,
+        ];
+    }
+
+    /**
      * Gera uma cobrança PIX instantânea para uma fatura.
      */
     public function createPixPayment(Invoice $invoice): array
@@ -31,6 +117,9 @@ class MercadoPagoService
 
         try {
             $response = Http::withToken($this->accessToken)
+                ->withHeaders([
+                    'X-Idempotency-Key' => (string) \Illuminate\Support\Str::uuid(),
+                ])
                 ->post('https://api.mercadopago.com/v1/payments', [
                     'transaction_amount' => (float) $amount,
                     'description' => "Fatura {$invoice->invoice_number} - HostDevPro Cloud",

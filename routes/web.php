@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AiSiteBuilderController;
 use App\Http\Controllers\AffiliateController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HostingAccountController;
@@ -18,6 +19,14 @@ Route::get('/', function () {
     }
     return redirect()->route('login');
 });
+
+// Funil de Vendas & Checkout Automatizado de Hospedagem
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/process', [CheckoutController::class, 'process'])->name('checkout.process');
+Route::get('/checkout/payment/{invoice}', [CheckoutController::class, 'payment'])->name('checkout.payment');
+Route::get('/checkout/status/{invoice}', [CheckoutController::class, 'checkStatus'])->name('checkout.status');
+Route::match(['get', 'post'], '/checkout/confirm/{invoice}', [CheckoutController::class, 'confirmPayment'])->name('checkout.confirm');
+Route::get('/checkout/success/{invoice}', [CheckoutController::class, 'success'])->name('checkout.success');
 
 // Contratos e Termos Oficiais
 Route::view('/termos/contrato-vps', 'terms.vps')->name('terms.vps');
