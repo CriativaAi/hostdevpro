@@ -202,4 +202,242 @@ class PleskService
             ];
         }
     }
+
+    /**
+     * Consulta registros DNS ativos no cluster Plesk.
+     */
+    public function getDnsRecords(string $domain): array
+    {
+        if (empty($this->password)) {
+            return [];
+        }
+
+        try {
+            $response = Http::withoutVerifying()
+                ->withBasicAuth($this->username, $this->password)
+                ->timeout(15)
+                ->get($this->host . '/api/v2/dns/records', [
+                    'domain' => strtolower(trim($domain)),
+                ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                return is_array($data) ? $data : [];
+            }
+
+            Log::warning("PleskService: Erro ao listar DNS para {$domain}: " . $response->body());
+            return [];
+        } catch (\Exception $e) {
+            Log::error("PleskService: Exceção ao listar DNS: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Adiciona um novo registro DNS no Plesk.
+     */
+    public function addDnsRecord(string $domain, string $type, string $host, string $value, ?string $opt = null): array
+    {
+        if (empty($this->password)) {
+            return [
+                'success' => false,
+                'message' => 'Serviço Plesk não configurado.',
+            ];
+        }
+
+        try {
+            $payload = [
+                'domain' => strtolower(trim($domain)),
+                'type' => strtoupper(trim($type)),
+                'host' => trim($host),
+                'value' => trim($value),
+            ];
+
+            if (!empty($opt)) {
+                $payload['opt'] = trim($opt);
+            }
+
+            $response = Http::withoutVerifying()
+                ->withBasicAuth($this->username, $this->password)
+                ->timeout(15)
+                ->post($this->host . '/api/v2/dns/records', $payload);
+
+            if ($response->successful()) {
+                return [
+                    'success' => true,
+                    'data' => $response->json(),
+                ];
+            }
+
+            return [
+                'success' => false,
+                'message' => $response->body(),
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Remove um registro DNS pelo ID no Plesk.
+     */
+    public function deleteDnsRecord(int $recordId): bool
+    {
+        if (empty($this->password)) {
+            return false;
+        }
+
+        try {
+            $response = Http::withoutVerifying()
+                ->withBasicAuth($this->username, $this->password)
+                ->timeout(15)
+                ->delete($this->host . "/api/v2/dns/records/{$recordId}");
+
+            return $response->successful();
+        } catch (\Exception $e) {
+            Log::error("PleskService: Exceção ao excluir DNS {$recordId}: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Lista bancos de dados MySQL associados a um domínio ou conta.
+     */
+    public function getDatabases(?string $domain = null): array
+    {
+        if (empty($this->password)) {
+            return [];
+        }
+
+        try {
+            $query = [];
+            if ($domain) {
+                // Tenta buscar o domain_id primeiro se necessário
+                $domainInfo = $this->getDomainInfo($domain);
+                if (!empty($domainInfo['id'])) {
+                    $query['domain_id'] = $domainInfo['id'];
+                }
+            }
+
+            $response = Http::withoutVerifying()
+                ->withBasicAuth($this->username, $this->password)
+                ->timeout(15)
+                ->get($this->host . '/api/v2/databases', $query);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                return is_array($data) ? $data : [];
+            }
+
+            return [];
+        } catch (\Exception $e) {
+            Log::error("PleskService: Exceção ao listar databases: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    /**
+     * Cria um novo banco de dados MySQL e usuário associado no Plesk.
+     */
+    public function createDatabase(string $domain, string $dbName, string $username, string $password): array
+    {
+        if (empty($this->password)) {
+            return [
+                'success' => false,
+                'message' => 'Serviço Plesk não configurado.',
+            ];
+        }
+
+        try {
+            $domainInfo = $this->getDomainInfo($domain);
+            if (empty($domainInfo['id'])) {
+                return [
+                    'success' => false,
+                    'message' => "Domínio {$domain} não localizado no Plesk.",
+                ];
+            }
+
+            $domainId = $domainInfo['id'];
+
+            // 1. Cria a base de dados
+            $dbRes = Http::withoutVerifying()
+                ->withBasicAuth($this->username, $this->password)
+                ->timeout(20)
+                ->post($this->host . '/api/v2/databases', [
+                    'name' => strtolower(trim($dbName)),
+                    'type' => 'mysql',
+                    'parent_domain' => [
+                        'id' => $domainId,
+                    ],
+                ]);
+
+            if (!$dbRes->successful()) {
+                return [
+                    'success' => false,
+                    'message' => 'Falha ao criar banco: ' . $dbRes->body(),
+                ];
+            }
+
+            $dbData = $dbRes->json();
+            $newDbId = $dbData['id'] ?? null;
+
+            // 2. Cria o usuário com acesso à base de dados
+            if ($newDbId && !empty($username) && !empty($password)) {
+                Http::withoutVerifying()
+                    ->withBasicAuth($this->username, $this->password)
+                    ->timeout(20)
+                    ->post($this->host . '/api/v2/database-users', [
+                        'name' => strtolower(trim($username)),
+                        'password' => $password,
+                        'database_id' => $newDbId,
+                    ]);
+            }
+
+            return [
+                'success' => true,
+                'database' => $dbData,
+            ];
+        } catch (\Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage(),
+            ];
+        }
+    }
+
+    /**
+     * Retorna detalhes de um domínio no Plesk.
+     */
+    public function getDomainInfo(string $domain): ?array
+    {
+        if (empty($this->password)) {
+            return null;
+        }
+
+        try {
+            $response = Http::withoutVerifying()
+                ->withBasicAuth($this->username, $this->password)
+                ->timeout(15)
+                ->get($this->host . '/api/v2/domains');
+
+            if ($response->successful()) {
+                $domains = $response->json();
+                if (is_array($domains)) {
+                    foreach ($domains as $d) {
+                        if (strcasecmp($d['name'] ?? '', trim($domain)) === 0) {
+                            return $d;
+                        }
+                    }
+                }
+            }
+        } catch (\Exception $e) {
+            Log::error("PleskService: Erro ao obter info do domínio: " . $e->getMessage());
+        }
+
+        return null;
+    }
 }
+

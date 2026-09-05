@@ -6,6 +6,7 @@ use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HostingAccountController;
+use App\Http\Controllers\HostingControlCenterController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProjectController;
@@ -50,6 +51,33 @@ Route::middleware('auth')->group(function () {
     Route::resource('servers', ServerController::class);
     Route::patch('hosting/{hosting}/toggle-status', [HostingAccountController::class, 'toggleStatus'])->name('hosting.toggle-status');
     Route::resource('hosting', HostingAccountController::class);
+
+    // Centro de Controle de Hospedagem (HostDevPro Cloud Control Center)
+    Route::prefix('hosting/{hosting}/control')->name('hosting.control.')->group(function () {
+        // Explorador de Arquivos & Code Editor
+        Route::get('files', [HostingControlCenterController::class, 'files'])->name('files');
+        Route::get('file-content', [HostingControlCenterController::class, 'fileContent'])->name('file-content');
+        Route::post('save-file', [HostingControlCenterController::class, 'saveFile'])->name('save-file');
+        Route::post('create-file', [HostingControlCenterController::class, 'createFile'])->name('create-file');
+        Route::post('create-folder', [HostingControlCenterController::class, 'createFolder'])->name('create-folder');
+        Route::post('upload', [HostingControlCenterController::class, 'upload'])->name('upload');
+        Route::post('extract-zip', [HostingControlCenterController::class, 'extractZip'])->name('extract-zip');
+        Route::delete('delete-item', [HostingControlCenterController::class, 'deleteItem'])->name('delete-item');
+        Route::get('backup', [HostingControlCenterController::class, 'downloadBackup'])->name('backup');
+
+        // DNS Zone Manager
+        Route::get('dns', [HostingControlCenterController::class, 'dnsList'])->name('dns.list');
+        Route::post('dns', [HostingControlCenterController::class, 'dnsStore'])->name('dns.store');
+        Route::delete('dns/{recordId}', [HostingControlCenterController::class, 'dnsDelete'])->name('dns.delete');
+
+        // MySQL Databases
+        Route::get('databases', [HostingControlCenterController::class, 'databaseList'])->name('databases.list');
+        Route::post('databases', [HostingControlCenterController::class, 'databaseStore'])->name('databases.store');
+
+        // Runtime PHP & SSL
+        Route::post('php-version', [HostingControlCenterController::class, 'updatePhp'])->name('update-php');
+        Route::post('renew-ssl', [HostingControlCenterController::class, 'renewSsl'])->name('renew-ssl');
+    });
 
     // Faturamento & Invoices
     Route::get('invoices', [InvoiceController::class, 'index'])->name('invoices.index');
